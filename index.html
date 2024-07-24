@@ -117,9 +117,11 @@
       document.body.appendChild(script);
     </script>
     <script>
-      if (window.Telegram.WebApp) {
-        window.Telegram.WebApp.ready();
-        window.Telegram.WebApp.expand();
+      const tg = window.Telegram.WebApp;
+      if (tg) {
+        tg.ready();
+        tg.expand();
+        tg.isVerticalSwipesEnabled(true);
         // window.addEventListener("touchmove", (e) => e.preventDefault(), {
         //   passive: false,
         // });
