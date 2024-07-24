@@ -121,7 +121,9 @@
       if (tg) {
         tg.ready();
         tg.expand();
-        tg.disableVerticalSwipes();
+        if(tg.isVersionAtLeast("7.7")){
+          tg.disableVerticalSwipes();
+        }
         // window.addEventListener("touchmove", (e) => e.preventDefault(), {
         //   passive: false,
         // });
