@@ -53,7 +53,15 @@ body {
   width: 0%;
   height: 100%;
   /* background-color: #e7863c; */
-  background: linear-gradient(to bottom, #f37171, #e7863c);
+  /* background: linear-gradient(to bottom, #ffb67e, #e7863c); */
+  /* background: linear-gradient(
+    to bottom,
+    #ffb67e,
+    #e7863c 60%,
+    #ffb67e 75%,
+    #e7863c 25%
+  ); */
+  background: linear-gradient(to bottom, #ffb67e 40%, #e7863c 0%);
   overflow: hidden;
   justify-content: center;
   align-items: center;
