@@ -11,8 +11,11 @@
     <link rel="shortcut icon" href="TemplateData/favicon.ico" />
     <link rel="stylesheet" href="TemplateData/style.css" />
     <link rel="manifest" href="manifest.webmanifest" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Slackey&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
   </head>
   <body>
     <div id="unity-container">
@@ -23,9 +26,10 @@
         tabindex="-1"
       ></canvas>
       <div id="unity-loading-bar">
-        <div id="unity-logo"></div>
+        <!-- <div id="unity-logo"></div> -->
         <div id="unity-progress-bar-empty">
           <div id="unity-progress-bar-full"></div>
+          <div id="unity-progress-bar-value">0%</div>
         </div>
       </div>
       <div id="unity-warning"></div>
@@ -41,6 +45,9 @@
       var canvas = document.querySelector("#unity-canvas");
       var loadingBar = document.querySelector("#unity-loading-bar");
       var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      var progressBarValue = document.querySelector(
+        "#unity-progress-bar-value"
+      );
       var warningBanner = document.querySelector("#unity-warning");
 
       // Shows a temporary message banner/ribbon for a few seconds, or
@@ -73,9 +80,9 @@
       var buildUrl = "Build";
       var loaderUrl = buildUrl + "/build.loader.js";
       var config = {
-        dataUrl: buildUrl + "/build.data",
-        frameworkUrl: buildUrl + "/build.framework.js",
-        codeUrl: buildUrl + "/build.wasm",
+        dataUrl: buildUrl + "/build.data.unityweb",
+        frameworkUrl: buildUrl + "/build.framework.js.unityweb",
+        codeUrl: buildUrl + "/build.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "Plank Pushers",
@@ -97,6 +104,12 @@
         meta.content =
           "width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes";
         document.getElementsByTagName("head")[0].appendChild(meta);
+      } else {
+        var meta = document.createElement("meta");
+        meta.name = "viewport";
+        meta.content =
+          "width=390, height=844, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes";
+        document.getElementsByTagName("head")[0].appendChild(meta);
       }
 
       loadingBar.style.display = "block";
@@ -106,6 +119,7 @@
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
           progressBarFull.style.width = 100 * progress + "%";
+          progressBarValue.innerHTML = Math.round(100 * progress) + "%";
         })
           .then((unityInstance) => {
             loadingBar.style.display = "none";
@@ -117,20 +131,34 @@
       document.body.appendChild(script);
     </script>
     <script>
-      const tg = window.Telegram.WebApp;
-      if (tg) {
-        tg.ready();
-        tg.expand();
-        if (tg.isVersionAtLeast("7.7")) {
-          tg.disableVerticalSwipes();
-        }
-        // window.addEventListener("touchmove", (e) => e.preventDefault(), {
-        //   passive: false,
-        // });
+      if (window.Telegram.WebApp) {
+        window.Telegram.WebApp.ready();
+        window.Telegram.WebApp.expand();
+        window.addEventListener("touchmove", (e) => e.preventDefault(), {
+          passive: false,
+        });
         window.scrollTo(0, 100);
+        window.Telegram.WebApp.enableClosingConfirmation(true);
+
+        // window.Telegram.WebApp.OnEvent("web_app_ready", async ()=>{
+        // 	const data = await fetch(
+        // 	      "https://telegram-bot-nodejs-8mmy.onrender.com/validate",
+        // 	      { method: "POST", body: window.Telegram.WebApp.initData },
+        //       ).then(res => res.json());
+        // });
+        // window.Telegram.WebApp.onEvent("qrTextReceived", async (obj) => {
+        //   console.log("#qrTextReceived", obj);
+        //   if (window.unityInstance) {
+        //     window.unityInstance.SendMessage(
+        //       "TelegramController",
+        //       "OnQrDetected",
+        //       obj.data
+        //     );
+        //   }
+        // });
       }
     </script>
-
+    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
     <script>
       eruda.init();
     </script>
@@ -157,14 +185,47 @@
       }
     </script>
     <script>
-      if (window.Telegram.WebApp) {
-        if (window.unityInstance) {
-          window.unityInstance.SendMessage(
-            "TelegramController",
-            "SetWebAppUser",
-            JSON.stringify(window.Telegram.WebApp.initDataUnsafe.user)
-          );
-        }
+      function convertCanvasToImage(screenshot) {
+        console.log("Screenshot received", screenshot);
+        (async () => {
+          const files = [
+            new File([screenshot], "Plank_Pushers.png", {
+              type: screenshot.type,
+            }),
+          ];
+          const shareData = {
+            text: "I just played Plank Pushers! Think you can beat me? Join the community now and give it a try: https://t.me/+Z43kTqZEVMg0N2U0. Let's see who can get the highest score!",
+            title: "Check Out My High Score!",
+            files,
+          };
+
+          if (!navigator.canShare) {
+            console.log("Sharing not supported");
+            return;
+          }
+          if (navigator && navigator.canShare(shareData)) {
+            try {
+              await navigator.share(shareData);
+            } catch (err) {
+              if (err.name !== "AbortError") {
+                console.log(err.name, err.message);
+              }
+            }
+          } else {
+            console.log("Sharing not supported", shareData);
+          }
+        })();
+      }
+    </script>
+    <script>
+      if (window.unityInstance) {
+        window.unityInstance.SendMessage(
+          "TelegramConnect",
+          "GetUserData",
+          JSON.stringify({
+            test: 1,
+          })
+        );
       }
     </script>
   </body>
