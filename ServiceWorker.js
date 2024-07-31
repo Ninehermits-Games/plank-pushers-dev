@@ -1,9 +1,9 @@
 const cacheName = "DefaultCompany-Plank Pushers-0.1";
 const contentToCache = [
     "Build/build.loader.js",
-    "Build/7da78f72daced2e87e9228688d513acf.js.unityweb",
-    "Build/662fa2c992c9c9ba4995b81c64475e29.data.unityweb",
-    "Build/cb90416141d5ffe08a98ff0d6935e7ef.wasm.unityweb",
+    "Build/3cf10c2881f441311e577a5c25d9b6cc.js.unityweb",
+    "Build/1667a2841e1aa14b65a4d88e939c1282.data.unityweb",
+    "Build/0713f9b102cf167619eecc770e58ce87.wasm.unityweb",
     "TemplateData/style.css"
 
 ];

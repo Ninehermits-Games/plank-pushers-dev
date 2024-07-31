@@ -70,8 +70,8 @@
       var buildUrl = "Build";
       var loaderUrl = buildUrl + "/build.loader.js";
       var config = {
-        dataUrl: buildUrl + "/662fa2c992c9c9ba4995b81c64475e29.data.unityweb",
-        frameworkUrl: buildUrl + "/7da78f72daced2e87e9228688d513acf.js.unityweb",
+        dataUrl: buildUrl + "/1667a2841e1aa14b65a4d88e939c1282.data.unityweb",
+        frameworkUrl: buildUrl + "/3cf10c2881f441311e577a5c25d9b6cc.js.unityweb",
    cacheControl: function (url) {
      if (url.match(/\.data/) || url.match(/\.bundle/)) {
          return "must-revalidate";
@@ -80,7 +80,7 @@
      // Note: the default browser cache may cache them anyway.
      return "no-store";
    },
-        codeUrl: buildUrl + "/cb90416141d5ffe08a98ff0d6935e7ef.wasm.unityweb",
+        codeUrl: buildUrl + "/0713f9b102cf167619eecc770e58ce87.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "Plank Pushers",
@@ -132,28 +132,6 @@
     </script>
 	<script>
       eruda.init();
-    </script>
-	<script>
-      if (window.Telegram.WebApp) {
-        //iife
-        (async () => {
-          const initData = window.Telegram.WebApp.initData;
-          console.log({ initData });
-          const response = await fetch(
-            "https://telegram-bot-nodejs-8mmy.onrender.com/validate",
-            {
-              body: initData,
-              method: "POST",
-              headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-              },
-            }
-          )
-            .then((res) => res.json())
-            .catch((err) => console.log({ err }));
-          console.log({ response });
-        })();
-      }
     </script>
   </body>
 </html>
