@@ -70,17 +70,9 @@
       var buildUrl = "Build";
       var loaderUrl = buildUrl + "/build.loader.js";
       var config = {
-        dataUrl: buildUrl + "/f0823f73e51ac05ebc4dec491e5c817c.data",
-        frameworkUrl: buildUrl + "/abeeee40317173ae01f5d4eaf68783c0.js",
-   cacheControl: function (url) {
-     if (url.match(/\.data/) || url.match(/\.bundle/)) {
-         return "must-revalidate";
-     }
-     // Disable explicit caching for all other files.
-     // Note: the default browser cache may cache them anyway.
-     return "no-store";
-   },
-        codeUrl: buildUrl + "/d0291647f5d843d87bcda665d2ff473e.wasm",
+        dataUrl: buildUrl + "/build.data",
+        frameworkUrl: buildUrl + "/build.framework.js",
+        codeUrl: buildUrl + "/build.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "Plank Pushers",
