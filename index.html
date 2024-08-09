@@ -3,44 +3,33 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<meta http-equiv="Cache-Control" content="no-store, must-revalidate" />
-    <meta http-equiv="Content-Encoding" content="gzip" />
-    <meta http-equiv="Expires" content="0" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <title>Plank Pushers</title>
+    <title>Unity WebGL Player | Plank Pushers</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
-    <link rel="manifest" href="manifest.webmanifest">
-	<script src="https://telegram.org/js/telegram-web-app.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-	 <link
-      href="https://fonts.googleapis.com/css2?family=Slackey&display=swap"
-      rel="stylesheet"
-    />
   </head>
   <body>
-    <div id="unity-container">
+    <div id="unity-container" class="unity-desktop">
       <canvas id="unity-canvas" width=1080 height=1920 tabindex="-1"></canvas>
       <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
         <div id="unity-progress-bar-empty">
           <div id="unity-progress-bar-full"></div>
-		  <div id="unity-progress-bar-value">0%</div>
         </div>
       </div>
       <div id="unity-warning"> </div>
+      <div id="unity-footer">
+        <div id="unity-webgl-logo"></div>
+        <div id="unity-fullscreen-button"></div>
+        <div id="unity-build-title">Plank Pushers</div>
+      </div>
     </div>
     <script>
-      window.addEventListener("load", function () {
-        if ("serviceWorker" in navigator) {
-          navigator.serviceWorker.register("ServiceWorker.js");
-        }
-      });
 
       var container = document.querySelector("#unity-container");
       var canvas = document.querySelector("#unity-canvas");
       var loadingBar = document.querySelector("#unity-loading-bar");
-	  var progressBarValue = document.querySelector("#unity-progress-bar-value");
       var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      var fullscreenButton = document.querySelector("#unity-fullscreen-button");
       var warningBanner = document.querySelector("#unity-warning");
 
       // Shows a temporary message banner/ribbon for a few seconds, or
@@ -80,7 +69,7 @@
         showBanner: unityShowBanner,
       };
 
-      // By default Unity keeps WebGL canvas render target size matched with
+      // By default, Unity keeps WebGL canvas render target size matched with
       // the DOM size of the canvas element (scaled by window.devicePixelRatio)
       // Set this to false if you want to decouple this synchronization from
       // happening inside the engine, and you would instead like to size up
@@ -89,10 +78,24 @@
 
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         // Mobile device style: fill the whole browser client area with the game canvas:
+
         var meta = document.createElement('meta');
         meta.name = 'viewport';
         meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
         document.getElementsByTagName('head')[0].appendChild(meta);
+        container.className = "unity-mobile";
+        canvas.className = "unity-mobile";
+
+        // To lower canvas resolution on mobile devices to gain some
+        // performance, uncomment the following line:
+        // config.devicePixelRatio = 1;
+
+
+      } else {
+        // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
+
+        canvas.style.width = "1080px";
+        canvas.style.height = "1920px";
       }
 
       loadingBar.style.display = "block";
@@ -102,50 +105,18 @@
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
           progressBarFull.style.width = 100 * progress + "%";
-		  progressBarValue.innerHTML = Math.round(100 * progress) + "%";
-        }).then((unityInstance) => {
-          loadingBar.style.display = "none";
-		  const fitScreen = function() {
-			const body = document.body;
-			const docElement = document.documentElement;
-			if(body.dataset.scaled) {
-				window.scrollTo(0, +body.dataset.scaled);
-				delete body.dataset.scaled;
-				body.style.transform = "none";
-			} else {
-				const maxHeight = Math.max(body.scrollHeight, body.offsetHeight, docElement.clientHeight, docElement.scrollHeight, docElement.offsetHeight);
-				const viewportHeight = Math.max(docElement.clientHeight, window.innerHeight || 0);
-				const scaleFactor = viewportHeight / maxHeight;
-				body.style.transform = "scale(" + scaleFactor + ")";
-				body.dataset.scaled = window.scrollY;
-				window.scrollTo(0, maxHeight / 2 - viewportHeight / 2);
-			}
-			};
-			fitScreen();
-        }).catch((message) => {
-          alert(message);
-        });
-      };
+              }).then((unityInstance) => {
+                loadingBar.style.display = "none";
+                fullscreenButton.onclick = () => {
+                  unityInstance.SetFullscreen(1);
+                };
+              }).catch((message) => {
+                alert(message);
+              });
+            };
+
       document.body.appendChild(script);
-    </script>
-	 <script>
-      if (window.Telegram.WebApp) {
-        window.Telegram.WebApp.ready();
-        window.Telegram.WebApp.expand();
-        
-        //window.scrollTo(0, 100);
-        window.Telegram.WebApp.enableClosingConfirmation(true);
-		if (window.Telegram.WebApp.isVersionAtLeast("7.7")) {
-			window.Telegram.WebApp.disableVerticalSwipes();
-		} else {
-			window.addEventListener("touchmove", (e) => e.preventDefault(), {
-				passive: false,
-			});
-		}
-      }
-    </script>
-	<script>
-      eruda.init();
+
     </script>
   </body>
 </html>
