@@ -4940,23 +4940,32 @@ var ASM_CONSTS = {
     }
 
   function _WalletConnect(returnUrl) {
-      if (window && window.Telegram && window.Telegram.WebApp) {
-        const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-          manifestUrl:
-            "https://mini-app.plankpushers.xyz/tonconnect-manifest.json",
-        });
-        const url = UTF8ToString(returnUrl);
-        tonConnectUI.uiOptions = {
-          twaReturnUrl: url,
-        };
-        (async () => {
-          try {
-            const connectedWallet = await tonConnectUI.connect();
-            console.log({ connectedWallet });
-          } catch (connectedWalletErr) {
-            console.log({ connectedWalletErr });
-          }
-        })();
+      if (
+        window &&
+        window.Telegram &&
+        window.Telegram.WebApp &&
+        window.TON_CONNECT_UI
+      ) {
+        try {
+          const tonConnectUI = new window.TON_CONNECT_UI.TonConnectUI({
+            manifestUrl:
+              "https://mini-app.plankpushers.xyz/tonconnect-manifest.json",
+          });
+          const url = UTF8ToString(returnUrl);
+          tonConnectUI.uiOptions = {
+            twaReturnUrl: url,
+          };
+          (async () => {
+            try {
+              const connectedWallet = await tonConnectUI.connect();
+              console.log({ connectedWallet });
+            } catch (connectedWalletErr) {
+              console.log({ connectedWalletErr });
+            }
+          })();
+        } catch (err) {
+          console.log(err);
+        }
       }
     }
 
