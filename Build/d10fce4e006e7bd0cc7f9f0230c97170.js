@@ -4957,7 +4957,7 @@ var ASM_CONSTS = {
           };
           (async () => {
             try {
-              const connectedWallet = await tonConnectUI.connect();
+              const connectedWallet = await tonConnectUI.openModal();
               console.log({ connectedWallet });
             } catch (connectedWalletErr) {
               console.log({ connectedWalletErr });
