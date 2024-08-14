@@ -13,6 +13,7 @@
     <link rel="manifest" href="manifest.webmanifest">
 	<script src="https://telegram.org/js/telegram-web-app.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+	<script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
 	 <link
       href="https://fonts.googleapis.com/css2?family=Slackey&display=swap"
       rel="stylesheet"
@@ -70,9 +71,9 @@
       var buildUrl = "Build";
       var loaderUrl = buildUrl + "/build.loader.js";
       var config = {
-        dataUrl: buildUrl + "/38978017260f75326190e23391c968e9.data",
-        frameworkUrl: buildUrl + "/e6fb559a820d2334756a3ab7ebe25eff.js",
-        codeUrl: buildUrl + "/d5117771dae950d724f5fd3257825814.wasm",
+        dataUrl: buildUrl + "/ecc22519d65ff30f5215e152b98142e3.data",
+        frameworkUrl: buildUrl + "/2af1f904198b84560a13bee64c217cde.js",
+        codeUrl: buildUrl + "/0a4692143d34b58dde07c7481b186f1b.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "Plank Pushers",
@@ -87,13 +88,30 @@
       // the canvas DOM size and WebGL render target sizes yourself.
       // config.matchWebGLToCanvasSize = false;
 
-      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+      //if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         // Mobile device style: fill the whole browser client area with the game canvas:
-        var meta = document.createElement('meta');
-        meta.name = 'viewport';
-        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-        document.getElementsByTagName('head')[0].appendChild(meta);
-      }
+        //var meta = document.createElement('meta');
+       // meta.name = 'viewport';
+       // meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+       // document.getElementsByTagName('head')[0].appendChild(meta);
+      //}
+	  
+	   const fitScreen = function() {
+				const body = document.body;
+				const docElement = document.documentElement;
+				if(body.dataset.scaled) {
+					window.scrollTo(0, +body.dataset.scaled);
+					delete body.dataset.scaled;
+					body.style.transform = "none";
+				} else {
+					const maxHeight = Math.max(body.scrollHeight, body.offsetHeight, docElement.clientHeight, docElement.scrollHeight, docElement.offsetHeight);
+					const viewportHeight = Math.max(docElement.clientHeight, window.innerHeight || 0);
+					const scaleFactor = viewportHeight / maxHeight;
+					body.style.transform = "scale(" + scaleFactor + ")";
+					body.dataset.scaled = window.scrollY;
+					window.scrollTo(0, maxHeight / 2 - viewportHeight / 2);
+				}
+			};
 
       loadingBar.style.display = "block";
 
@@ -105,23 +123,7 @@
 		  progressBarValue.innerHTML = Math.round(100 * progress) + "%";
         }).then((unityInstance) => {
           loadingBar.style.display = "none";
-		  const fitScreen = function() {
-			const body = document.body;
-			const docElement = document.documentElement;
-			if(body.dataset.scaled) {
-				window.scrollTo(0, +body.dataset.scaled);
-				delete body.dataset.scaled;
-				body.style.transform = "none";
-			} else {
-				const maxHeight = Math.max(body.scrollHeight, body.offsetHeight, docElement.clientHeight, docElement.scrollHeight, docElement.offsetHeight);
-				const viewportHeight = Math.max(docElement.clientHeight, window.innerHeight || 0);
-				const scaleFactor = viewportHeight / maxHeight;
-				body.style.transform = "scale(" + scaleFactor + ")";
-				body.dataset.scaled = window.scrollY;
-				window.scrollTo(0, maxHeight / 2 - viewportHeight / 2);
-			}
-			};
-			fitScreen();
+		  fitScreen();
         }).catch((message) => {
           alert(message);
         });
@@ -147,5 +149,6 @@
 	<script>
       eruda.init();
     </script>
+	<!-- <div id="ton-connect"></div> -->
   </body>
 </html>
