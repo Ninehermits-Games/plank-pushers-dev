@@ -4808,7 +4808,7 @@ var ASM_CONSTS = {
   function _OpenTelegramLink() {
       if (window.Telegram && window.Telegram.WebApp) {
         // const l = UTF8ToString(url);
-        window.Telegram.WebApp.OpenTelegramLink("https://t.me/+Z43kTqZEVMg0N2U0");
+        window.Telegram.WebApp.openTelegramLink("https://t.me/+Z43kTqZEVMg0N2U0");
       }
     }
 
