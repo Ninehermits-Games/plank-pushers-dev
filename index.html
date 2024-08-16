@@ -71,9 +71,9 @@
       var buildUrl = "Build";
       var loaderUrl = buildUrl + "/build.loader.js";
       var config = {
-        dataUrl: buildUrl + "/cceefed6ea6d34fa1a653cbdb03217a0.data",
-        frameworkUrl: buildUrl + "/96d8baa813814be540cf7be24dc0a3bc.js",
-        codeUrl: buildUrl + "/50d6d2e185ce0c66ec7ea89e50e7c2ed.wasm",
+        dataUrl: buildUrl + "/e51522366a35d150dca6fd6dbdc205cc.data",
+        frameworkUrl: buildUrl + "/ef4fd488ab619863e216b9ade0a6ff04.js",
+        codeUrl: buildUrl + "/43ce4751bdbd11a46fd2e589cf0749b8.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "Plank Pushers",
@@ -125,6 +125,24 @@
         }).then((unityInstance) => {
           loadingBar.style.display = "none";
 		  window.fitScreen();
+		   if (window.Telegram && window.Telegram.WebApp && window.TON_CONNECT_UI && window.tonConnectUI) {
+				//const { modal } = window.tonConnectUI;
+				//const unsubscribe = modal.onStateChange(state => { 
+					//const stateData = JSON.stringify(state);
+					//const bufferSize = lengthBytesUTF8(stateData) + 1;
+					//const buffer = _malloc(bufferSize);
+					//stringToUTF8(stateData, buffer, bufferSize);
+					//unityInstance.SendMessage('GameManager','tonUIModalStatus', buffer);
+				//});
+				
+				
+				const unsubscribe = tonConnectUI.onStatusChange(
+				walletAndwalletInfo => {
+					// update state/reactive variables to show updates in the ui
+				}
+				unsubscribe();
+			);
+			} 
         }).catch((message) => {
           alert(message);
         });
