@@ -126,11 +126,11 @@
         window.fitScreen();
 
         window.addEventListener('focus', function () {
-          gameInstance.SendMessage('GameManager', 'OnGameFocus', 'focused');
+          unityInstance.SendMessage('GameManager', 'OnGameFocus', 'focused');
         });
 
         window.addEventListener('blur', function () {
-          gameInstance.SendMessage('GameManager', 'OnGameFocus', 'blurred');
+          unityInstance.SendMessage('GameManager', 'OnGameFocus', 'blurred');
         });
       }).catch((message) => {
         alert(message);
