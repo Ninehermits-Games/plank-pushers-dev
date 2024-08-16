@@ -71,9 +71,9 @@
       var buildUrl = "Build";
       var loaderUrl = buildUrl + "/build.loader.js";
       var config = {
-        dataUrl: buildUrl + "/e4c6ed593a78c9011c5d889930d6fde5.data",
-        frameworkUrl: buildUrl + "/419c1c7178aa3ef89c2ee0528d62c889.js",
-        codeUrl: buildUrl + "/ddceb7fee63d97929d1258bf0df293f8.wasm",
+        dataUrl: buildUrl + "/e49fd50caf0278ee2ee39f52c14fb541.data",
+        frameworkUrl: buildUrl + "/c891eb5968488af1ddb2dca5c171b676.js",
+        codeUrl: buildUrl + "/29a872bf1b6f984cb1c2f29b144126ba.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "Plank Pushers",
@@ -134,6 +134,10 @@ window.addEventListener('blur', function() {
     unityInstance.SendMessage('GameManager', 'OnGameFocus', 'blurred');
 });
 window.addEventListener('ton-connect-ui-connection-completed', (event) => {
+    console.log('Transaction init', event.detail);
+	unityInstance.SendMessage('GameManager', 'CheckWalletStatus');
+});
+window.addEventListener('ton-connect-ui-disconnection', (event) => {
     console.log('Transaction init', event.detail);
 	unityInstance.SendMessage('GameManager', 'CheckWalletStatus');
 });
