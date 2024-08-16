@@ -125,23 +125,7 @@
         }).then((unityInstance) => {
           loadingBar.style.display = "none";
 		  window.fitScreen();
-		   if (window.Telegram && window.Telegram.WebApp && window.TON_CONNECT_UI && window.tonConnectUI) {
-				//const { modal } = window.tonConnectUI;
-				//const unsubscribe = modal.onStateChange(state => { 
-					//const stateData = JSON.stringify(state);
-					//const bufferSize = lengthBytesUTF8(stateData) + 1;
-					//const buffer = _malloc(bufferSize);
-					//stringToUTF8(stateData, buffer, bufferSize);
-					//unityInstance.SendMessage('GameManager','tonUIModalStatus', buffer);
-				//});
-				
-				
-				const unsubscribe = tonConnectUI.onStatusChange(
-				walletAndwalletInfo => {
-					// update state/reactive variables to show updates in the ui
-				}
-				unsubscribe();
-			);
+		   
 			} 
         }).catch((message) => {
           alert(message);
