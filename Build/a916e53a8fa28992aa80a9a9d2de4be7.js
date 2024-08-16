@@ -2161,31 +2161,9 @@ var ASM_CONSTS = {
     }
 
   function _FitToScreen() {
-      const fitScreen = function () {
-        const body = document.body;
-        const docElement = document.documentElement;
-        if (body.dataset.scaled) {
-          window.scrollTo(0, +body.dataset.scaled);
-          delete body.dataset.scaled;
-          body.style.transform = "none";
-        } else {
-          const maxHeight = Math.max(
-            body.scrollHeight,
-            body.offsetHeight,
-            docElement.clientHeight,
-            docElement.scrollHeight,
-            docElement.offsetHeight
-          );
-          const viewportHeight = Math.max(
-            docElement.clientHeight,
-            window.innerHeight || 0
-          );
-          const scaleFactor = viewportHeight / maxHeight;
-          body.style.transform = "scale(" + scaleFactor + ")";
-          body.dataset.scaled = window.scrollY;
-          window.scrollTo(0, maxHeight / 2 - viewportHeight / 2);
-        }
-      };
+      if (window && window.Telegram && window.Telegram.WebApp ) {
+          window.fitScreen();
+      }
     }
 
   function _GetJSMemoryInfo(totalJSptr, usedJSptr) {

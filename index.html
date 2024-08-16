@@ -72,7 +72,7 @@
       var loaderUrl = buildUrl + "/build.loader.js";
       var config = {
         dataUrl: buildUrl + "/e49fd50caf0278ee2ee39f52c14fb541.data",
-        frameworkUrl: buildUrl + "/c891eb5968488af1ddb2dca5c171b676.js",
+        frameworkUrl: buildUrl + "/a916e53a8fa28992aa80a9a9d2de4be7.js",
         codeUrl: buildUrl + "/29a872bf1b6f984cb1c2f29b144126ba.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
@@ -127,20 +127,21 @@
 		  window.fitScreen();
 		   
 			window.addEventListener('focus', function() {
-    unityInstance.SendMessage('GameManager', 'OnGameFocus', 'focused');
-});
+				unityInstance.SendMessage('GameManager', 'OnGameFocus', 'focused');
+			});
 
-window.addEventListener('blur', function() {
-    unityInstance.SendMessage('GameManager', 'OnGameFocus', 'blurred');
-});
-window.addEventListener('ton-connect-ui-connection-completed', (event) => {
-    console.log('Transaction init', event.detail);
-	unityInstance.SendMessage('GameManager', 'CheckWalletStatus');
-});
-window.addEventListener('ton-connect-ui-disconnection', (event) => {
-    console.log('Transaction init', event.detail);
-	unityInstance.SendMessage('GameManager', 'CheckWalletStatus');
-});
+			window.addEventListener('blur', function() {
+				unityInstance.SendMessage('GameManager', 'OnGameFocus', 'blurred');
+			});
+			window.addEventListener('ton-connect-ui-connection-completed', (event) => {
+				console.log('ton-connect-ui-connection-completed');
+				window.fitScreen();
+				unityInstance.SendMessage('GameManager', 'CheckWalletStatus');
+			});
+			window.addEventListener('ton-connect-ui-disconnection', (event) => {
+				console.log('ton-connect-ui-disconnection');
+				unityInstance.SendMessage('GameManager', 'CheckWalletStatus');
+			});
         }).catch((message) => {
           alert(message);
         });
