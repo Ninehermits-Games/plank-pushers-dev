@@ -71,9 +71,9 @@
       var buildUrl = "Build";
       var loaderUrl = buildUrl + "/build.loader.js";
       var config = {
-        dataUrl: buildUrl + "/430f74a702a5786329098b114912076a.data",
-        frameworkUrl: buildUrl + "/9f785e54d6f27a18babbe24bd82a4f83.js",
-        codeUrl: buildUrl + "/45caea72a10c57214de41fa666a14bf0.wasm",
+        dataUrl: buildUrl + "/13b2c80c49fbf80c4b19fc7dca67d324.data",
+        frameworkUrl: buildUrl + "/bf446f5f46f237b87a866e59be848060.js",
+        codeUrl: buildUrl + "/1399210886ee24912397f6d51d1f7f23.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "Plank Pushers",
@@ -103,13 +103,19 @@
 					window.scrollTo(0, +body.dataset.scaled);
 					delete body.dataset.scaled;
 					body.style.transform = "none";
+					return false;
 				} else {
 					const maxHeight = Math.max(body.scrollHeight, body.offsetHeight, docElement.clientHeight, docElement.scrollHeight, docElement.offsetHeight);
 					const viewportHeight = Math.max(docElement.clientHeight, window.innerHeight || 0);
 					const scaleFactor = viewportHeight / maxHeight;
-					body.style.transform = "scale(" + scaleFactor + ")";
-					body.dataset.scaled = window.scrollY;
-					window.scrollTo(0, maxHeight / 2 - viewportHeight / 2);
+					if(scaleFactor < 1){
+						body.style.transform = "scale(" + scaleFactor + ")";
+						body.dataset.scaled = window.scrollY;
+						window.scrollTo(0, maxHeight / 2 - viewportHeight / 2);
+						return true;
+					} else {
+						return false;
+					}
 				}
 			};
 		window.fitScreen = fitScreen;
@@ -133,6 +139,7 @@
 			window.addEventListener('blur', function() {
 				unityInstance.SendMessage('GameManager', 'OnGameFocus', 'blurred');
 			});
+			
 			
         }).catch((message) => {
           alert(message);
