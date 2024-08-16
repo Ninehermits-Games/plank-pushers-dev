@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<meta http-equiv="Cache-Control" content="no-store, must-revalidate" />
+    <meta http-equiv="Cache-Control" content="no-store, must-revalidate" />
     <meta http-equiv="Content-Encoding" content="gzip" />
     <meta http-equiv="Expires" content="0" />
     <meta http-equiv="Pragma" content="no-cache" />
@@ -11,10 +11,10 @@
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
     <link rel="manifest" href="manifest.webmanifest">
-	<script src="https://telegram.org/js/telegram-web-app.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-	<script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
-	 <link
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+    <link
       href="https://fonts.googleapis.com/css2?family=Slackey&display=swap"
       rel="stylesheet"
     />
@@ -71,9 +71,9 @@
       var buildUrl = "Build";
       var loaderUrl = buildUrl + "/build.loader.js";
       var config = {
-        dataUrl: buildUrl + "/07872d43d438d2eae33ed9d19d61c2da.data",
-        frameworkUrl: buildUrl + "/a11fbb605d7cd5106a134d7a65492989.js",
-        codeUrl: buildUrl + "/15506ea5ac4c8fd64f6cc60200989e2a.wasm",
+        dataUrl: buildUrl + "/a9c7f41cc4947da5bcc374684b288592.data",
+        frameworkUrl: buildUrl + "/0d1cc80bcfa0389cbed5e378fc593bb1.js",
+        codeUrl: buildUrl + "/48869ce645d3cfdcb43904f02ebe1459.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "Plank Pushers",
@@ -112,6 +112,7 @@
 					window.scrollTo(0, maxHeight / 2 - viewportHeight / 2);
 				}
 			};
+		window.fitScreen = fitScreen;
 
       loadingBar.style.display = "block";
 
@@ -123,7 +124,7 @@
 		  progressBarValue.innerHTML = Math.round(100 * progress) + "%";
         }).then((unityInstance) => {
           loadingBar.style.display = "none";
-		  fitScreen();
+		  window.fitScreen();
         }).catch((message) => {
           alert(message);
         });
