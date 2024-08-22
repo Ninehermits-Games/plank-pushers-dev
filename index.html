@@ -71,7 +71,7 @@
       var buildUrl = "Build";
       var loaderUrl = buildUrl + "/build.loader.js";
       var config = {
-        dataUrl: buildUrl + "/c3daa1ffabb7e76f22674093a657fe28.data",
+        dataUrl: buildUrl + "/fd5353c242b285a22a470109a285395c.data",
         frameworkUrl: buildUrl + "/3f04cab41b1ec0c58e65f8ae7d28d2d7.js",
         codeUrl: buildUrl + "/2d6eaeede3f0fc4d50423f122baee51f.wasm",
         streamingAssetsUrl: "StreamingAssets",
@@ -157,7 +157,7 @@
          window.Telegram.WebApp.onEvent('invoiceClosed', async (object)=>{
 			console.log('#invoiceClosed', object);
 			if(window.unityInstance){
-				//window.unityInstance.SendMessage("GameManager", "InvoiceData", object.data);
+				//window.unityInstance.SendMessage("RequestHandler", "PremiumCheckerFunction");
 			}
 		 });
         //window.scrollTo(0, 100);
