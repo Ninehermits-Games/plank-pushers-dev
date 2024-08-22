@@ -133,15 +133,15 @@
 		  window.unityInstance = unityInstance;
 		  window.fitScreen();
 		   
-			window.addEventListener('focus', function() {
-				window.unityInstance.SendMessage('GameManager', 'OnGameFocus', 'focused');
-			});
+		   if(window.unityInstance){
+				window.addEventListener('focus', function() {
+					window.unityInstance.SendMessage('GameManager', 'OnGameFocus', 'focused');
+				});
 
-			window.addEventListener('blur', function() {
-				window.unityInstance.SendMessage('GameManager', 'OnGameFocus', 'blurred');
-			});
-			
-			
+				window.addEventListener('blur', function() {
+					window.unityInstance.SendMessage('GameManager', 'OnGameFocus', 'blurred');
+				});
+			}
 			
 			
         }).catch((message) => {
