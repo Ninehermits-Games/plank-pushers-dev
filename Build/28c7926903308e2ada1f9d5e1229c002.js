@@ -2188,7 +2188,7 @@ var ASM_CONSTS = {
             }
             if(typeof premiumEndDate !== "undefined" && premiumEndDate !== null && window.unityInstance) {
               console.log({ premiumEndDate : premiumEndDate.toString() });
-              window.unityInstance.SendMessage("GameManager", "SetPremiumEndTime", premiumEndDate.toString());
+              // window.unityInstance.SendMessage("GameManager", "SetPremiumEndTime", premiumEndDate.toString());
             }
   
           } catch (err) {
