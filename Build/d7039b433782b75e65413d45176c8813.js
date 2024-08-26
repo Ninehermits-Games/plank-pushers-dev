@@ -2130,9 +2130,14 @@ var ASM_CONSTS = {
       return demangleAll(js);
     }
 
-  function _BuyPremiumPass(baseUrl,token) {
-      if (window && window.Telegram && window.Telegram.WebApp && window.unityInstance) {
-         (async () => {
+  function _BuyPremiumPass(baseUrl, token) {
+      if (
+        window &&
+        window.Telegram &&
+        window.Telegram.WebApp &&
+        window.unityInstance
+      ) {
+        (async () => {
           try {
             const url = UTF8ToString(baseUrl);
             const tkn = UTF8ToString(token);
@@ -2140,22 +2145,39 @@ var ASM_CONSTS = {
               method: "GET",
               headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${tkn}`,
+                Authorization: `Bearer ${tkn}`,
               },
-            })
-           if (!response.ok) {
-             throw new Error(`Response status: ${response.status}`);
-          }
+            });
+            if (!response.ok) {
+              throw new Error(`Response status: ${response.status}`);
+            }
             const data = await response.json();
             const invoiceLink = data.invoiceLink;
             const status = data.status;
-            if(typeof invoiceLink !== "undefined" && invoiceLink !== null && window.unityInstance) {
+            if (
+              typeof invoiceLink !== "undefined" &&
+              invoiceLink !== null &&
+              window.unityInstance
+            ) {
               //window.unityInstance.SendMessage("RequestHandler", "PremiumCheckerFunction");
               //window.unityInstance.SendMessage("RequestHandler", "SetPremiumButtonVal", "true");
               window.Telegram.WebApp.openInvoice(invoiceLink);
             }
-             if(typeof status !== "undefined" && status !== null && status === "premium" && window.unityInstance) {
-              window.Telegram.WebApp.showAlert("Your premium subscription has already been activated!", () => window.unityInstance.SendMessage("RequestHandler", "SetPremiumButtonVal", "false"));
+            if (
+              typeof status !== "undefined" &&
+              status !== null &&
+              status === "premium" &&
+              window.unityInstance
+            ) {
+              window.Telegram.WebApp.showAlert(
+                "Your premium subscription has already been activated!",
+                () =>
+                  window.unityInstance.SendMessage(
+                    "RequestHandler",
+                    "SetPremiumButtonVal",
+                    "false"
+                  )
+              );
             }
           } catch (err) {
             console.log({ err });
@@ -2164,9 +2186,14 @@ var ASM_CONSTS = {
       }
     }
 
-  function _CheckPremium(url , token) {
-      if (window && window.Telegram && window.Telegram.WebApp && window.unityInstance) {
-         (async () => {
+  function _CheckPremium(url, token) {
+      if (
+        window &&
+        window.Telegram &&
+        window.Telegram.WebApp &&
+        window.unityInstance
+      ) {
+        (async () => {
           try {
             const l = UTF8ToString(url);
             const tkn = UTF8ToString(token);
@@ -2174,24 +2201,35 @@ var ASM_CONSTS = {
               method: "GET",
               headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${tkn}`,
+                Authorization: `Bearer ${tkn}`,
               },
-            })
-           if (!response.ok) {
-             throw new Error(`Response status: ${response.status}`);
-          }
+            });
+            if (!response.ok) {
+              throw new Error(`Response status: ${response.status}`);
+            }
             const data = await response.json();
             const premium = data.premium;
             const premiumEndDate = data.premiumEndDate;
   
-            if(typeof premium !== "undefined" && premium !== null && window.unityInstance) {
-              window.unityInstance.SendMessage("GameManager", "SetPremium", premium ? "true" : "false");
+            if (
+              typeof premium !== "undefined" &&
+              premium !== null &&
+              window.unityInstance
+            ) {
+              window.unityInstance.SendMessage(
+                "GameManager",
+                "SetPremium",
+                premium ? "true" : "false"
+              );
             }
-            if(typeof premiumEndDate !== "undefined" && premiumEndDate !== null && window.unityInstance) {
-              console.log({ premiumEndDate : premiumEndDate.toString() });
+            if (
+              typeof premiumEndDate !== "undefined" &&
+              premiumEndDate !== null &&
+              window.unityInstance
+            ) {
+              console.log({ premiumEndDate: premiumEndDate.toString() });
               // window.unityInstance.SendMessage("GameManager", "SetPremiumEndTime", premiumEndDate.toString());
             }
-  
           } catch (err) {
             console.log({ err });
           }
@@ -2231,8 +2269,8 @@ var ASM_CONSTS = {
     }
 
   function _FitToScreen() {
-      if (window && window.Telegram && window.Telegram.WebApp ) {
-          return window.fitScreen();
+      if (window && window.Telegram && window.Telegram.WebApp) {
+        return window.fitScreen();
       }
     }
 
@@ -4917,11 +4955,11 @@ var ASM_CONSTS = {
           const authToken = UTF8ToString(token);
           const account = window.tonConnectUI.account;
           const response = await fetch(`${l}wallet`, {
-            body:  JSON.stringify(account),
+            body: JSON.stringify(account),
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              "Authorization": `Bearer ${authToken}`,
+              Authorization: `Bearer ${authToken}`,
             },
           })
             .then((res) => res.json())
@@ -4933,52 +4971,32 @@ var ASM_CONSTS = {
 
   function _Screenshot(base64String) {
       console.log("Screenshot started");
-      const base64 = UTF8ToString(base64String);
-      const binaryString = atob(base64);
-      const len = binaryString.length;
-      const bytes = new Uint8Array(len);
-      for (let i = 0; i < len; i++) {
-        bytes[i] = binaryString.charCodeAt(i);
-      }
-      const blob = new Blob([bytes], { type: "image/png" });
-      //window.convertCanvasToImage(blob);
-      (async () => {
-        const files = [
-          new File([blob], "Plank_Pushers.png", {
-            type: blob.type,
-          }),
-        ];
-        const shareData = {
-          text: "Check Out My High Score!\nI just played Plank Pushers! Think you can beat me? Join the community now and give it a try: https://t.me/Plank_Pushers. Let's see who can get the highest score!",
-          title: "Check Out My High Score!",
-          files,
-        };
   
-        if (!navigator.canShare || !navigator.canShare(shareData)) {
-          console.log("Sharing not supported");
-          return;
-        }
-        if (navigator && navigator.canShare(shareData)) {
-          try {
-            await navigator.share(shareData);
-          } catch (err) {
-            if (err.name !== "AbortError") {
-              console.log(err.name, err.message);
-            }
-          }
-        } else {
-          console.log("Sharing not supported", shareData);
-        }
-      })();
+      const imageUrl = "data:image/png;base64," + UTF8ToString(base64String);
+  
+      const shareData = {
+        text: "Check Out My High Score!\nI just played Plank Pushers! Think you can beat me? Join the community now and give it a try: https://t.me/Plank_Pushers.",
+        title: "Check Out My High Score!",
+        url: imageUrl, // sharing the image as a URL (base64)
+      };
+  
+      if (navigator.share) {
+        navigator
+          .share(shareData)
+          .then(() => console.log("Image shared successfully"))
+          .catch((error) => console.log("Error sharing", error));
+      } else {
+        console.log("Sharing not supported on this browser.");
+      }
     }
 
   function _SendDataToBackend(text) {
       if (window && window.Telegram && window.Telegram.WebApp) {
-        const value = UTF8ToString(text)
+        const value = UTF8ToString(text);
         try {
           window.Telegram.WebApp.sendData(value);
-        } catch(SendDataToBackendError) {
-          console.log({SendDataToBackendError});
+        } catch (SendDataToBackendError) {
+          console.log({ SendDataToBackendError });
         }
       }
     }
@@ -5071,46 +5089,66 @@ var ASM_CONSTS = {
               headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
               },
-            })
-           if (!response.ok) {
-             throw new Error(`Response status: ${response.status}`);
-          }
+            });
+            if (!response.ok) {
+              throw new Error(`Response status: ${response.status}`);
+            }
             const data = await response.json();
             const token = data.token;
             const premium = data.premium;
             const premiumEndDate = data.premiumEndDate;
             // console.log(token);
-            if(typeof token !== "undefined" && token !== null && window.unityInstance) {
-              window.unityInstance.SendMessage("RequestHandler", "SetToken", token);
+            if (
+              typeof token !== "undefined" &&
+              token !== null &&
+              window.unityInstance
+            ) {
+              window.unityInstance.SendMessage(
+                "RequestHandler",
+                "SetToken",
+                token
+              );
             }
-            if(typeof premium !== "undefined" && premium !== null && window.unityInstance) {
-              window.unityInstance.SendMessage("GameManager", "SetPremium", premium ? "true" : "false");
+            if (
+              typeof premium !== "undefined" &&
+              premium !== null &&
+              window.unityInstance
+            ) {
+              window.unityInstance.SendMessage(
+                "GameManager",
+                "SetPremium",
+                premium ? "true" : "false"
+              );
             }
-             if(typeof premiumEndDate !== "undefined" && premiumEndDate !== null && window.unityInstance) {
-              console.log({ premiumEndDate : premiumEndDate.toString() });
+            if (
+              typeof premiumEndDate !== "undefined" &&
+              premiumEndDate !== null &&
+              window.unityInstance
+            ) {
+              console.log({ premiumEndDate: premiumEndDate.toString() });
               // window.unityInstance.SendMessage("GameManager", "SetPremiumEndTime", UTF8ToString(premiumEndDate));
             }
           } catch (validateErr) {
             console.log({ validateErr });
           }
-      
         })();
       }
     }
 
   function _WalletConnect() {
-       if (
+      if (
         window &&
         window.Telegram &&
         window.Telegram.WebApp &&
         window.TON_CONNECT_UI &&
         window.tonConnectUI
       ) {
-          //window.fitScreen();
-          return window.tonConnectUI.openModal()
+        //window.fitScreen();
+        return window.tonConnectUI
+          .openModal()
           .then(() => window.tonConnectUI.connected)
-          .catch(() => window.tonConnectUI.connected)
-          // .finally(() => window.fitScreen());
+          .catch(() => window.tonConnectUI.connected);
+        // .finally(() => window.fitScreen());
       } else {
         return false;
       }
@@ -5138,9 +5176,10 @@ var ASM_CONSTS = {
         window.TON_CONNECT_UI &&
         window.tonConnectUI
       ) {
-        return window.tonConnectUI.disconnect()
-        .then(() => window.tonConnectUI.connected)
-        .catch(() => window.tonConnectUI.connected);
+        return window.tonConnectUI
+          .disconnect()
+          .then(() => window.tonConnectUI.connected)
+          .catch(() => window.tonConnectUI.connected);
       } else {
         return false;
       }
