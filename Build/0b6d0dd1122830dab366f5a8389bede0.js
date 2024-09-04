@@ -5273,79 +5273,79 @@ var ASM_CONSTS = {
               throw new Error(`Response status: ${response.status}`);
             }
             const data = await response.json();
-            // const token = data.token;
-            // const premium = data.premium;
-            // const premiumEndDate = data.premiumEndDate;
+            const token = data.token;
+            const premium = data.premium;
+            const premiumEndDate = data.premiumEndDate;
             const userType = data.userType;
-            // const notTask = data.notTask;
-            // const points = data.points;
+            const notTask = data.notTask;
+            const points = data.points;
   
-            const validateData = JSON.stringify(data);
-            const bufferSize = lengthBytesUTF8(validateData) + 1;
-            const buffer = _malloc(bufferSize);
-            stringToUTF8(validateData, buffer, bufferSize);
-            if (window.unityInstance) {
+            // const validateData = JSON.stringify(data);
+            // const bufferSize = lengthBytesUTF8(validateData) + 1;
+            // const buffer = _malloc(bufferSize);
+            // stringToUTF8(validateData, buffer, bufferSize);
+            // if (window.unityInstance) {
+            //   window.unityInstance.SendMessage(
+            //     "RequestHandler",
+            //     "SetValidateData",
+            //     buffer
+            //   );
+            // }
+  
+            console.log(token);
+            if (
+              typeof token !== "undefined" &&
+              token !== null &&
+              window.unityInstance
+            ) {
               window.unityInstance.SendMessage(
                 "RequestHandler",
-                "SetValidateData",
-                buffer
+                "SetToken",
+                token
               );
             }
-  
-            // console.log(token);
-            // if (
-            //   typeof token !== "undefined" &&
-            //   token !== null &&
-            //   window.unityInstance
-            // ) {
-            //   window.unityInstance.SendMessage(
-            //     "RequestHandler",
-            //     "SetToken",
-            //     token
-            //   );
-            // }
-            // if (
-            //   typeof notTask !== "undefined" &&
-            //   notTask !== null &&
-            //   window.unityInstance
-            // ) {
-            //   window.unityInstance.SendMessage(
-            //     "RequestHandler",
-            //     "SetNotTaskValue",
-            //     notTask ? "true" : "false"
-            //   );
-            // } else if (window.unityInstance) {
-            //   window.unityInstance.SendMessage(
-            //     "RequestHandler",
-            //     "SetNotTaskValue",
-            //     "false"
-            //   );
-            // }
-            // if (
-            //   typeof premium !== "undefined" &&
-            //   premium !== null &&
-            //   window.unityInstance
-            // ) {
-            //   window.unityInstance.SendMessage(
-            //     "GameManager",
-            //     "SetPremium",
-            //     premium ? "true" : "false"
-            //   );
-            // } else if (window.unityInstance) {
-            //   window.unityInstance.SendMessage(
-            //     "GameManager",
-            //     "SetPremium",
-            //     "false"
-            //   );
-            // }
-            // if (
-            //   typeof premiumEndDate !== "undefined" &&
-            //   premiumEndDate !== null &&
-            //   window.unityInstance
-            // ) {
-            //   console.log({ premiumEndDate: premiumEndDate.toString() });
-            //   // window.unityInstance.SendMessage("GameManager", "SetPremiumEndTime", UTF8ToString(premiumEndDate));
-            // }
+            if (
+              typeof notTask !== "undefined" &&
+              notTask !== null &&
+              window.unityInstance
+            ) {
+              window.unityInstance.SendMessage(
+                "RequestHandler",
+                "SetNotTaskValue",
+                notTask ? "true" : "false"
+              );
+            } else if (window.unityInstance) {
+              window.unityInstance.SendMessage(
+                "RequestHandler",
+                "SetNotTaskValue",
+                "false"
+              );
+            }
+            if (
+              typeof premium !== "undefined" &&
+              premium !== null &&
+              window.unityInstance
+            ) {
+              window.unityInstance.SendMessage(
+                "GameManager",
+                "SetPremium",
+                premium ? "true" : "false"
+              );
+            } else if (window.unityInstance) {
+              window.unityInstance.SendMessage(
+                "GameManager",
+                "SetPremium",
+                "false"
+              );
+            }
+            if (
+              typeof premiumEndDate !== "undefined" &&
+              premiumEndDate !== null &&
+              window.unityInstance
+            ) {
+              console.log({ premiumEndDate: premiumEndDate.toString() });
+              // window.unityInstance.SendMessage("GameManager", "SetPremiumEndTime", UTF8ToString(premiumEndDate));
+            }
             if (
               typeof userType !== "undefined" &&
               userType !== null &&
@@ -5360,17 +5360,17 @@ var ASM_CONSTS = {
                 eruda.init();
               }
             }
-            // if (
-            //   typeof points !== "undefined" &&
-            //   points !== null &&
-            //   window.unityInstance
-            // ) {
-            //   window.unityInstance.SendMessage(
-            //     "RequestHandler",
-            //     "SetPoints",
-            //     points
-            //   );
-            // }
+            if (
+              typeof points !== "undefined" &&
+              points !== null &&
+              window.unityInstance
+            ) {
+              window.unityInstance.SendMessage(
+                "RequestHandler",
+                "SetPoints",
+                points
+              );
+            }
           } catch (validateErr) {
             console.log({ validateErr });
           }
