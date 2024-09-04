@@ -2282,40 +2282,42 @@ var ASM_CONSTS = {
       }
     }
 
-  async function _GenerateTONInvoice(baseUrl, token) {
+  function _GenerateTONInvoice(baseUrl, token) {
       if (
         window &&
         window.Telegram &&
         window.Telegram.WebApp &&
         window.unityInstance
       ) {
-        try {
-          const url = UTF8ToString(baseUrl);
-          const tkn = UTF8ToString(token);
-          const response = await fetch(url, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${tkn}`,
-            },
-          });
-          if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
+        (async () => {
+          try {
+            const url = UTF8ToString(baseUrl);
+            const tkn = UTF8ToString(token);
+            const response = await fetch(url, {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${tkn}`,
+              },
+            });
+            if (!response.ok) {
+              throw new Error(`Response status: ${response.status}`);
+            }
+            const data = await response.json();
+            const invoiceData = JSON.stringify(data);
+            const bufferSize = lengthBytesUTF8(invoiceData) + 1;
+            const buffer = _malloc(bufferSize);
+            stringToUTF8(invoiceData, buffer, bufferSize);
+            window.unityInstance.SendMessage(
+              "RequestHandler",
+              "SetTONInvoiceData",
+              buffer
+            );
+            // return buffer;
+          } catch (err) {
+            console.log({ err });
           }
-          const data = await response.json();
-          const invoiceData = JSON.stringify(data);
-          const bufferSize = lengthBytesUTF8(invoiceData) + 1;
-          const buffer = _malloc(bufferSize);
-          stringToUTF8(invoiceData, buffer, bufferSize);
-          window.unityInstance.SendMessage(
-            "RequestHandler",
-            "SetTONInvoiceData",
-            buffer
-          );
-          // return buffer;
-        } catch (err) {
-          console.log({ err });
-        }
+        })();
       }
     }
 
@@ -5130,54 +5132,59 @@ var ASM_CONSTS = {
       }
     }
 
-  async function _SendTransaction(address, amount, payload) {
+  function _SendTransaction(address, amount, payload) {
       if (window.unityInstance && window.tonConnectUI.connected) {
-        const add = UTF8ToString(address);
-        const amt = UTF8ToString(amount);
-        const ply = UTF8ToString(payload);
-        const time_out = Math.floor(Date.now() / 1000) + 60;
-        var transaction = {
-          validUntil: time_out, // 60 sec
-          messages: [
-            {
-              address: add,
-              amount: amt,
-              payload: ply,
-              // stateInit: "base64bocblahblahblah==" // just for instance. Replace with your transaction initState or remove
-            },
-          ],
-        };
-  
-        try {
-          const result = await window.tonConnectUI.sendTransaction(transaction, {
-            modals: ["before", "success", "error"],
-            notifications: ["before", "success", "error"],
-          });
-          const values = {
-            boc: result.boc,
-            time_out: time_out,
-            payload: ply,
+        (async () => {
+          const add = UTF8ToString(address);
+          const amt = UTF8ToString(amount);
+          const ply = UTF8ToString(payload);
+          const time_out = Math.floor(Date.now() / 1000) + 60;
+          var transaction = {
+            validUntil: time_out, // 60 sec
+            messages: [
+              {
+                address: add,
+                amount: amt,
+                payload: ply,
+                // stateInit: "base64bocblahblahblah==" // just for instance. Replace with your transaction initState or remove
+              },
+            ],
           };
-          const invoiceData = JSON.stringify(values);
-          const bufferSize = lengthBytesUTF8(invoiceData) + 1;
-          const buffer = _malloc(bufferSize);
-          stringToUTF8(invoiceData, buffer, bufferSize);
-          window.unityInstance.SendMessage(
-            "RequestHandler",
-            "SetTransactionStatus",
-            buffer
-          );
-          console.log({ result });
   
-          // you can use signed boc to find the transaction
-          // const someTxData = await myAppExplorerService.getTransaction(
-          //   result.boc
-          // );
-          // alert("Transaction was sent successfully", someTxData);
-        } catch (sendTransactionError) {
-          // console.error(e);
-          console.log({ sendTransactionError });
-        }
+          try {
+            const result = await window.tonConnectUI.sendTransaction(
+              transaction,
+              {
+                modals: ["before", "success", "error"],
+                notifications: ["before", "success", "error"],
+              }
+            );
+            const values = {
+              boc: result.boc,
+              time_out: time_out,
+              payload: ply,
+            };
+            const invoiceData = JSON.stringify(values);
+            const bufferSize = lengthBytesUTF8(invoiceData) + 1;
+            const buffer = _malloc(bufferSize);
+            stringToUTF8(invoiceData, buffer, bufferSize);
+            window.unityInstance.SendMessage(
+              "RequestHandler",
+              "SetTransactionStatus",
+              buffer
+            );
+            console.log({ result });
+  
+            // you can use signed boc to find the transaction
+            // const someTxData = await myAppExplorerService.getTransaction(
+            //   result.boc
+            // );
+            // alert("Transaction was sent successfully", someTxData);
+          } catch (sendTransactionError) {
+            // console.error(e);
+            console.log({ sendTransactionError });
+          }
+        })();
       }
     }
 
@@ -5248,162 +5255,164 @@ var ASM_CONSTS = {
 
   function _ShowShareJoinCode(code) {}
 
-  async function _Validate(url) {
+  function _Validate(url) {
       if (window.Telegram.WebApp && window.unityInstance) {
-        // (async () => {
-        const l = UTF8ToString(url);
-        const initData = window.Telegram.WebApp.initData;
-        // console.log({ initData });
-        try {
-          const response = await fetch(`${l}validate`, {
-            body: initData,
-            method: "POST",
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-            },
-          });
-          if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
-          }
-          const data = await response.json();
-          // const token = data.token;
-          // const premium = data.premium;
-          // const premiumEndDate = data.premiumEndDate;
-          const userType = data.userType;
-          // const notTask = data.notTask;
-          // const points = data.points;
+        (async () => {
+          const l = UTF8ToString(url);
+          const initData = window.Telegram.WebApp.initData;
+          // console.log({ initData });
+          try {
+            const response = await fetch(`${l}validate`, {
+              body: initData,
+              method: "POST",
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+              },
+            });
+            if (!response.ok) {
+              throw new Error(`Response status: ${response.status}`);
+            }
+            const data = await response.json();
+            // const token = data.token;
+            // const premium = data.premium;
+            // const premiumEndDate = data.premiumEndDate;
+            const userType = data.userType;
+            // const notTask = data.notTask;
+            // const points = data.points;
   
-          const validateData = JSON.stringify(data);
-          const bufferSize = lengthBytesUTF8(validateData) + 1;
-          const buffer = _malloc(bufferSize);
-          stringToUTF8(validateData, buffer, bufferSize);
-          window.unityInstance.SendMessage(
-            "RequestHandler",
-            "SetValidateData",
-            buffer
-          );
+            const validateData = JSON.stringify(data);
+            const bufferSize = lengthBytesUTF8(validateData) + 1;
+            const buffer = _malloc(bufferSize);
+            stringToUTF8(validateData, buffer, bufferSize);
+            window.unityInstance.SendMessage(
+              "RequestHandler",
+              "SetValidateData",
+              buffer
+            );
   
-          // console.log(token);
-          // if (
-          //   typeof token !== "undefined" &&
-          //   token !== null &&
-          //   window.unityInstance
-          // ) {
-          //   window.unityInstance.SendMessage(
-          //     "RequestHandler",
-          //     "SetToken",
-          //     token
-          //   );
-          // }
-          // if (
-          //   typeof notTask !== "undefined" &&
-          //   notTask !== null &&
-          //   window.unityInstance
-          // ) {
-          //   window.unityInstance.SendMessage(
-          //     "RequestHandler",
-          //     "SetNotTaskValue",
-          //     notTask ? "true" : "false"
-          //   );
-          // } else if (window.unityInstance) {
-          //   window.unityInstance.SendMessage(
-          //     "RequestHandler",
-          //     "SetNotTaskValue",
-          //     "false"
-          //   );
-          // }
-          // if (
-          //   typeof premium !== "undefined" &&
-          //   premium !== null &&
-          //   window.unityInstance
-          // ) {
-          //   window.unityInstance.SendMessage(
-          //     "GameManager",
-          //     "SetPremium",
-          //     premium ? "true" : "false"
-          //   );
-          // } else if (window.unityInstance) {
-          //   window.unityInstance.SendMessage(
-          //     "GameManager",
-          //     "SetPremium",
-          //     "false"
-          //   );
-          // }
-          // if (
-          //   typeof premiumEndDate !== "undefined" &&
-          //   premiumEndDate !== null &&
-          //   window.unityInstance
-          // ) {
-          //   console.log({ premiumEndDate: premiumEndDate.toString() });
-          //   // window.unityInstance.SendMessage("GameManager", "SetPremiumEndTime", UTF8ToString(premiumEndDate));
-          // }
-          if (
-            typeof userType !== "undefined" &&
-            userType !== null &&
-            window.unityInstance
-          ) {
-            /*
+            // console.log(token);
+            // if (
+            //   typeof token !== "undefined" &&
+            //   token !== null &&
+            //   window.unityInstance
+            // ) {
+            //   window.unityInstance.SendMessage(
+            //     "RequestHandler",
+            //     "SetToken",
+            //     token
+            //   );
+            // }
+            // if (
+            //   typeof notTask !== "undefined" &&
+            //   notTask !== null &&
+            //   window.unityInstance
+            // ) {
+            //   window.unityInstance.SendMessage(
+            //     "RequestHandler",
+            //     "SetNotTaskValue",
+            //     notTask ? "true" : "false"
+            //   );
+            // } else if (window.unityInstance) {
+            //   window.unityInstance.SendMessage(
+            //     "RequestHandler",
+            //     "SetNotTaskValue",
+            //     "false"
+            //   );
+            // }
+            // if (
+            //   typeof premium !== "undefined" &&
+            //   premium !== null &&
+            //   window.unityInstance
+            // ) {
+            //   window.unityInstance.SendMessage(
+            //     "GameManager",
+            //     "SetPremium",
+            //     premium ? "true" : "false"
+            //   );
+            // } else if (window.unityInstance) {
+            //   window.unityInstance.SendMessage(
+            //     "GameManager",
+            //     "SetPremium",
+            //     "false"
+            //   );
+            // }
+            // if (
+            //   typeof premiumEndDate !== "undefined" &&
+            //   premiumEndDate !== null &&
+            //   window.unityInstance
+            // ) {
+            //   console.log({ premiumEndDate: premiumEndDate.toString() });
+            //   // window.unityInstance.SendMessage("GameManager", "SetPremiumEndTime", UTF8ToString(premiumEndDate));
+            // }
+            if (
+              typeof userType !== "undefined" &&
+              userType !== null &&
+              window.unityInstance
+            ) {
+              /*
                 0 - normal
                 1 - dev
                 2 - admin
               */
-            if (userType === 1 || userType === 2) {
-              eruda.init();
+              if (userType === 1 || userType === 2) {
+                eruda.init();
+              }
             }
+            // if (
+            //   typeof points !== "undefined" &&
+            //   points !== null &&
+            //   window.unityInstance
+            // ) {
+            //   window.unityInstance.SendMessage(
+            //     "RequestHandler",
+            //     "SetPoints",
+            //     points
+            //   );
+            // }
+          } catch (validateErr) {
+            console.log({ validateErr });
           }
-          // if (
-          //   typeof points !== "undefined" &&
-          //   points !== null &&
-          //   window.unityInstance
-          // ) {
-          //   window.unityInstance.SendMessage(
-          //     "RequestHandler",
-          //     "SetPoints",
-          //     points
-          //   );
-          // }
-        } catch (validateErr) {
-          console.log({ validateErr });
-        }
-        // })();
+        })();
       }
     }
 
-  async function _VerifyTONTransaction(baseUrl, token) {
+  function _VerifyTONTransaction(baseUrl, token) {
       if (
         window &&
         window.Telegram &&
         window.Telegram.WebApp &&
         window.unityInstance
       ) {
-        try {
-          const url = UTF8ToString(baseUrl);
-          const tkn = UTF8ToString(token);
-          const response = await fetch(url, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${tkn}`,
-            },
-          });
-          if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
+        (async () => {
+          try {
+            const url = UTF8ToString(baseUrl);
+            const tkn = UTF8ToString(token);
+            const response = await fetch(url, {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${tkn}`,
+              },
+            });
+            if (!response.ok) {
+              throw new Error(`Response status: ${response.status}`);
+            }
+            const data = await response.json();
+            window.Telegram.WebApp.showAlert(UTF8ToString(data.message));
+            // const invoiceData = JSON.stringify(data);
+            // const bufferSize = lengthBytesUTF8(invoiceData) + 1;
+            // const buffer = _malloc(bufferSize);
+            // stringToUTF8(invoiceData, buffer, bufferSize);
+            // window.unityInstance.SendMessage(
+            //   "RequestHandler",
+            //   "SetTONInvoiceData",
+            //   buffer
+            // );
+            // return buffer;
+          } catch (verifyTransactionError) {
+            console.log({ verifyTransactionError });
           }
-          const data = await response.json();
-          window.Telegram.WebApp.showAlert(UTF8ToString(data.message));
-          // const invoiceData = JSON.stringify(data);
-          // const bufferSize = lengthBytesUTF8(invoiceData) + 1;
-          // const buffer = _malloc(bufferSize);
-          // stringToUTF8(invoiceData, buffer, bufferSize);
-          // window.unityInstance.SendMessage(
-          //   "RequestHandler",
-          //   "SetTONInvoiceData",
-          //   buffer
-          // );
-          // return buffer;
-        } catch (verifyTransactionError) {
-          console.log({ verifyTransactionError });
-        }
+        })();
       }
     }
 
