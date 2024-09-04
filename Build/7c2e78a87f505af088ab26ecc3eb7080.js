@@ -5249,7 +5249,7 @@ var ASM_CONSTS = {
   function _ShowShareJoinCode(code) {}
 
   async function _Validate(url) {
-      if (window.Telegram.WebApp) {
+      if (window.Telegram.WebApp && window.unityInstance) {
         // (async () => {
         const l = UTF8ToString(url);
         const initData = window.Telegram.WebApp.initData;
@@ -5269,7 +5269,7 @@ var ASM_CONSTS = {
           // const token = data.token;
           // const premium = data.premium;
           // const premiumEndDate = data.premiumEndDate;
-          // const userType = data.userType;
+          const userType = data.userType;
           // const notTask = data.notTask;
           // const points = data.points;
   
