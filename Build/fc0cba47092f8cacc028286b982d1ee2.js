@@ -4986,42 +4986,42 @@ var ASM_CONSTS = {
       }
     }
 
-  function _NotCoinTask(userId, slug) {
+  async function _NotCoinTask(userId, slug) {
       if (
         window &&
         window.Telegram &&
         window.Telegram.WebApp &&
         window.unityInstance
       ) {
-        (async () => {
-          const id = UTF8ToString(userId);
-          const slug = UTF8ToString(slug);
-          try {
-            const eventData = [
-              {
-                slug: slug, //"4073-open-link-1724623073507" // Replace with the actual slug
-                telegramId: id, // meka genna ganin jslib ekata UTF8Data ganin matakaine
+        // (async () => {
+        const id = UTF8ToString(userId);
+        const sl = UTF8ToString(slug);
+        try {
+          const eventData = [
+            {
+              slug: sl, //"4073-open-link-1724623073507" // Replace with the actual slug
+              telegramId: id, // meka genna ganin jslib ekata UTF8Data ganin matakaine
+            },
+          ];
+  
+          const response = await fetch(
+            "https://api.joincommunity.xyz/external/events",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "api-key":
+                  "qnAqYY2r12lxTW67tNgGrR7lnz9cHKQIXYi7SLC7JUSvi0qnU3Zwez4btCyV86c6byKqP5JuofOzGLMATdWNoicwVYGI9V9OcIoSFjBDiPJQVO3Q3Y5zf46wc1GwJ6NgpSxUs2HFKvfOaJMj5tSWqCYhNAqWit19y77ydA1K4yOiHKK8GYhlDesU1L1YiyCgZj",
               },
-            ];
+              body: JSON.stringify(eventData),
+            }
+          );
   
-            const response = await fetch(
-              "https://api.joincommunity.xyz/external/events",
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  "api-key":
-                    "qnAqYY2r12lxTW67tNgGrR7lnz9cHKQIXYi7SLC7JUSvi0qnU3Zwez4btCyV86c6byKqP5JuofOzGLMATdWNoicwVYGI9V9OcIoSFjBDiPJQVO3Q3Y5zf46wc1GwJ6NgpSxUs2HFKvfOaJMj5tSWqCYhNAqWit19y77ydA1K4yOiHKK8GYhlDesU1L1YiyCgZj",
-                },
-                body: JSON.stringify(eventData),
-              }
-            );
-  
-            await response.json();
-          } catch (err) {
-            console.log(err);
-          }
-        })();
+          await response.json();
+        } catch (err) {
+          console.log(err);
+        }
+        // })();
       }
     }
 
