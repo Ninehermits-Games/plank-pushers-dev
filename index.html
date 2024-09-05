@@ -82,9 +82,9 @@
       var buildUrl = "Build";
       var loaderUrl = buildUrl + "/build.loader.js";
       var config = {
-        dataUrl: buildUrl + "/6159a8dcab36347fd7a1b4ce69e00b35.data",
-        frameworkUrl: buildUrl + "/86888369399fa6c18b9be47cc749db32.js",
-        codeUrl: buildUrl + "/332aba47ac6c2ead609b647e70b0bc9f.wasm",
+        dataUrl: buildUrl + "/ed02841b6cd16bf009260f734a4125a6.data",
+        frameworkUrl: buildUrl + "/5f7a65fe608aeffb6da1d09f6974e119.js",
+        codeUrl: buildUrl + "/5ae0c8c5617842a7292ff84c2be33adf.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "Plank Pushers",
@@ -166,7 +166,7 @@
       if (window.Telegram.WebApp) {
         window.Telegram.WebApp.ready();
         window.Telegram.WebApp.expand();
-         window.Telegram.WebApp.onEvent('invoiceClosed', async (object)=>{
+        window.Telegram.WebApp.onEvent('invoiceClosed', async (object)=>{
 			console.log('#invoiceClosed', object);
 			if(window.unityInstance && object.status === "paid"){
 				window.unityInstance.SendMessage("RequestHandler", "PremiumCheckerFunction");
