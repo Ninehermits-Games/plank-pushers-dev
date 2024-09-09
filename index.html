@@ -170,15 +170,15 @@
       window.Telegram.WebApp.expand();
       window.Telegram.WebApp.onEvent('invoiceClosed', async (object) => {
         console.log('#invoiceClosed', object);
-        if (window.unityInstance &&) {
-		if(object.status === "paid"){ // stars
-			// disable button
-			window.unityInstance.SendMessage("RequestHandler", "PremiumCheckerFunction");
-		  } else if(object.status === "cancelled " || object.status === "failed " || object.status === "pending ") {
-			// enable button
-			window.unityInstance.SendMessage("GameManager", "TogglePayButtons", 1);
-		  }
-        }
+        if (window.unityInstance) {
+			if(object.status === "paid"){ // stars
+				// disable button
+				window.unityInstance.SendMessage("RequestHandler", "PremiumCheckerFunction");
+			  } else if(object.status === "cancelled " || object.status === "failed " || object.status === "pending ") {
+				// enable button
+				window.unityInstance.SendMessage("GameManager", "TogglePayButtons", 1);
+			  }
+			}
       });
       //window.scrollTo(0, 100);
       window.Telegram.WebApp.enableClosingConfirmation(true);
