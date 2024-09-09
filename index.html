@@ -176,6 +176,7 @@
 				window.unityInstance.SendMessage("RequestHandler", "PremiumCheckerFunction");
 			  } else if(object.status === "cancelled " || object.status === "failed " || object.status === "pending ") {
 				// enable button
+				console.log("stars closed");
 				window.unityInstance.SendMessage("GameManager", "TogglePayButtons", 1);
 			  }
 			}
@@ -194,8 +195,9 @@
 			(state) => {
 				if(state.state === "closed"){ // TON
 					// wallet closed
+					console.log("ton closed");
 					window.unityInstance.SendMessage("GameManager", "TogglePayButtons", 1);
-					console.log({closeReason : state.closeReason });
+					//console.log({closeReason : state.closeReason });
 				}
 			}
 		);
