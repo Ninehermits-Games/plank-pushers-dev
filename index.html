@@ -84,9 +84,9 @@
     var buildUrl = "Build";
     var loaderUrl = buildUrl + "/build.loader.js";
     var config = {
-      dataUrl: buildUrl + "/eb73ca942dff8f823bcbe1b70804704e.data",
-      frameworkUrl: buildUrl + "/97472222afa8b065e29c49845113be1c.js",
-        codeUrl: buildUrl + "/b5cc294e42723ed763f575e7ed3d9ce5.wasm",
+      dataUrl: buildUrl + "/1423b1e2109cb1d7c63280751ef70acc.data",
+      frameworkUrl: buildUrl + "/98b397ea338046a7793c676e2704a396.js",
+        codeUrl: buildUrl + "/65e2dda38c67c78a42908f7ebd2a84fa.wasm",
         streamingAssetsUrl: "StreamingAssets",
 		companyName: "DefaultCompany",
 		productName: "Plank Pushers",
@@ -191,19 +191,37 @@
         });
       }
 	  if(window.tonConnectUI){
-		const unsubscribeModal = window.tonConnectUI.onModalStateChange(
-			(state) => {
-				console.log({state});
-				if(state.state === "closed"){ // TON
-					// wallet closed
-					console.log("ton closed");
-					window.unityInstance.SendMessage("GameManager", "TogglePayButtons", 1);
-					//console.log({closeReason : state.closeReason });
+			const unsubscribeModal = window.tonConnectUI.onModalStateChange(
+				(state) => {
+					console.log({state});
+					if(state.state === "closed"){ // TON
+						// wallet closed
+						console.log("ton closed");
+						window.unityInstance.SendMessage("GameManager", "TogglePayButtons", 1);
+						//console.log({closeReason : state.closeReason });
+					}
 				}
-			}
-		);
-		unsubscribeModal();
-	  }
+			);
+			unsubscribeModal();
+		}
+		// Keys
+		 window.Telegram.WebApp.CloudStorage.getKeys(function (err, keys) {
+          if (err) {
+            console.log({ err });
+          } else {
+            console.log({ keys });
+            window.Telegram.WebApp.CloudStorage.getItems(
+              keys,
+              function (err, values) {
+                if (err) {
+                  console.log({ err });
+                } else {
+                  console.log({ values });
+                }
+              }
+            );
+          }
+        });
     }
   </script>
   <script>eruda.init();</script> <!-- Enabled for testing -->
