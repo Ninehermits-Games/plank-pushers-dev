@@ -2383,7 +2383,7 @@ var ASM_CONSTS = {
             if (err) {
               console.log({ err });
             } else {
-              // console.log({ values });
+              console.log({ GetKeys: values });
               const data = JSON.stringify(values);
               window.unityInstance.SendMessage(
                 "RequestHandler",
