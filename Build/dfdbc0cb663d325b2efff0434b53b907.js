@@ -2378,20 +2378,23 @@ var ASM_CONSTS = {
           //     );
           //   }
           // });
-          const k = UTF8ToString(keys);
-          window.Telegram.WebApp.CloudStorage.getItems(k, function (err, values) {
-            if (err) {
-              console.log({ err });
-            } else {
-              console.log({ GetKeys: values });
-              const data = JSON.stringify(values);
-              window.unityInstance.SendMessage(
-                "RequestHandler",
-                "AddQuests",
-                data
-              );
+          // const k = UTF8ToString(keys);
+          window.Telegram.WebApp.CloudStorage.getItems(
+            keys,
+            function (err, values) {
+              if (err) {
+                console.log({ err });
+              } else {
+                console.log({ GetKeys: values });
+                const data = JSON.stringify(values);
+                window.unityInstance.SendMessage(
+                  "RequestHandler",
+                  "AddQuests",
+                  data
+                );
+              }
             }
-          });
+          );
         } catch (e) {
           console.log({ e });
         }
