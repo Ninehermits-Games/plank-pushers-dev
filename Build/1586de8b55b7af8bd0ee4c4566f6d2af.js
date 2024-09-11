@@ -2421,9 +2421,10 @@ var ASM_CONSTS = {
                 // check keys length
                 // check keys in the vals array
                 const data = k.filter((key) => !vals.includes(key));
+                console.log({ data });
                 if (data.length > 0) {
                   for (let i = 0; i < data.length; i++) {
-                    window.Telegram.WebApp.CloudStorage.setItem(i, "0");
+                    window.Telegram.WebApp.CloudStorage.setItem(data[i], "0");
                   }
                   window.Telegram.WebApp.CloudStorage.getItems(
                     k,
