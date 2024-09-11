@@ -2420,7 +2420,8 @@ var ASM_CONSTS = {
               if (vals.length > 0) {
                 // check keys length
                 // check keys in the vals array
-                const data = k.filter((key) => !vals.includes(key));
+                // const data = k.filter((key) => !vals.includes(key));
+                const data = k.split(",").filter((key) => !vals.includes(key));
                 console.log({ data });
                 if (data.length > 0) {
                   for (let i = 0; i < data.length; i++) {
