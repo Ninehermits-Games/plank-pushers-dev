@@ -2362,20 +2362,24 @@ var ASM_CONSTS = {
       if (window.Telegram.WebApp && window.unityInstance) {
         try {
           const k = UTF8ToString(keys);
-          window.Telegram.WebApp.CloudStorage.getItems(k, function (err, values) {
-            console.log("GetKeys");
-            if (err) {
-              console.log({ GetKeysErr: err });
-            } else {
-              console.log({ GetKeysVales: values });
-              const data = JSON.stringify(values);
-              window.unityInstance.SendMessage(
-                "RequestHandler",
-                "AddQuests",
-                data
-              );
+          console.log("GetKeys", k);
+          window.Telegram.WebApp.CloudStorage.getItems(
+            k,
+            async function (err, values) {
+              console.log("GetKeys", err, values);
+              if (err) {
+                console.log({ GetKeysErr: err });
+              } else {
+                console.log({ GetKeysVales: values });
+                const data = JSON.stringify(values);
+                window.unityInstance.SendMessage(
+                  "RequestHandler",
+                  "AddQuests",
+                  data
+                );
+              }
             }
-          });
+          );
         } catch (e) {
           console.log({ e });
         }
