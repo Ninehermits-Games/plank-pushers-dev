@@ -2412,7 +2412,7 @@ var ASM_CONSTS = {
       if (window.Telegram.WebApp && window.unityInstance) {
         try {
           const k = UTF8ToString(keys);
-          console.log("GetKeys", k);
+          // console.log("GetKeys", k);
           Telegram.WebApp.CloudStorage.getKeys(function (err, vals) {
             if (err) {
               console.log({ err });
@@ -2427,26 +2427,26 @@ var ASM_CONSTS = {
                   for (let i = 0; i < data.length; i++) {
                     window.Telegram.WebApp.CloudStorage.setItem(data[i], "0");
                   }
-                  window.Telegram.WebApp.CloudStorage.getItems(
-                    k,
-                    function (err, values) {
-                      console.log("GetKeysFC", err, values);
-                      if (err) {
-                        console.log({ GetKeysErr: err });
-                      } else {
-                        console.log({ GetKeysVales: values });
-                        const data = JSON.stringify(values);
-                        window.unityInstance.SendMessage(
-                          "RequestHandler",
-                          "AddQuests",
-                          data
-                        );
-                      }
-                    }
-                  );
+                  // window.Telegram.WebApp.CloudStorage.getItems(
+                  //   k,
+                  //   function (err, values) {
+                  //     console.log("GetKeysFC", err, values);
+                  //     if (err) {
+                  //       console.log({ GetKeysErr: err });
+                  //     } else {
+                  //       console.log({ GetKeysVales: values });
+                  //       const data = JSON.stringify(values);
+                  //       window.unityInstance.SendMessage(
+                  //         "RequestHandler",
+                  //         "AddQuests",
+                  //         data
+                  //       );
+                  //     }
+                  //   }
+                  // );
                 } else {
                   window.Telegram.WebApp.CloudStorage.getItems(
-                    k,
+                    k.split(","),
                     function (err, values) {
                       console.log("GetKeysFC", err, values);
                       if (err) {
