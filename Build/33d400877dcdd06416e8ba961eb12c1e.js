@@ -2453,7 +2453,11 @@ var ASM_CONSTS = {
                         console.log({ GetKeysErr: err });
                       } else {
                         console.log({ GetKeysVales: values });
-                        const data = JSON.stringify(values);
+                        const arr = Object.entries(values).map(([key, value]) => [
+                          key,
+                          Number(value),
+                        ]);
+                        const data = JSON.stringify(Object.fromEntries(arr));
                         window.unityInstance.SendMessage(
                           "RequestHandler",
                           "AddQuests",
