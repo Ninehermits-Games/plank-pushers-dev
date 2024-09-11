@@ -2413,23 +2413,57 @@ var ASM_CONSTS = {
         try {
           const k = UTF8ToString(keys);
           console.log("GetKeys", k);
-          window.Telegram.WebApp.CloudStorage.getItems(
-            k,
-            async function (err, values) {
-              console.log("GetKeysFC", err, values);
-              if (err) {
-                console.log({ GetKeysErr: err });
-              } else {
-                console.log({ GetKeysVales: values });
-                const data = JSON.stringify(values);
-                window.unityInstance.SendMessage(
-                  "RequestHandler",
-                  "AddQuests",
-                  data
-                );
+          Telegram.WebApp.CloudStorage.getKeys(function (err, vals) {
+            if (err) {
+              console.log({ err });
+            } else {
+              if (vals.length > 0) {
+                // check keys length
+                // check keys in the vals array
+                const data = k.filter((key) => !vals.includes(key));
+                if (data.length > 0) {
+                  for (let i = 0; i < data.length; i++) {
+                    window.Telegram.WebApp.CloudStorage.setItem(i, "0");
+                  }
+                  window.Telegram.WebApp.CloudStorage.getItems(
+                    k,
+                    function (err, values) {
+                      console.log("GetKeysFC", err, values);
+                      if (err) {
+                        console.log({ GetKeysErr: err });
+                      } else {
+                        console.log({ GetKeysVales: values });
+                        const data = JSON.stringify(values);
+                        window.unityInstance.SendMessage(
+                          "RequestHandler",
+                          "AddQuests",
+                          data
+                        );
+                      }
+                    }
+                  );
+                } else {
+                  window.Telegram.WebApp.CloudStorage.getItems(
+                    k,
+                    function (err, values) {
+                      console.log("GetKeysFC", err, values);
+                      if (err) {
+                        console.log({ GetKeysErr: err });
+                      } else {
+                        console.log({ GetKeysVales: values });
+                        const data = JSON.stringify(values);
+                        window.unityInstance.SendMessage(
+                          "RequestHandler",
+                          "AddQuests",
+                          data
+                        );
+                      }
+                    }
+                  );
+                }
               }
             }
-          );
+          });
         } catch (e) {
           console.log({ e });
         }
