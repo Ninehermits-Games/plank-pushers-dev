@@ -5085,41 +5085,46 @@ var ASM_CONSTS = {
       }
     }
 
-  function _NewOpenWallet() {
-      if (
-        window &&
-        window.Telegram &&
-        window.Telegram.WebApp &&
-        window.unityInstance &&
-        window.TON_CONNECT_UI &&
-        window.tonConnectUI
-      ) {
-        if (window.tonConnectUI.connected) {
-          window.Telegram.WebApp.showPopup(
-            {
-              title: "Disconnect your wallet",
-              message: "Your wallet will be disconnected.",
-              buttons: [
-                { id: "1", type: "close", text: "Close" },
-                { id: "2", type: "destructive", text: "Confirm" },
-              ],
-            },
-            function (val) {
-              if (val === "2") {
-                window.tonConnectUI
-                  .disconnect()
-                  .then(() => window.fitScreen())
-                  .catch(() => window.fitScreen());
+  async function _NewOpenWallet() {
+      try {
+        if (
+          window &&
+          window.Telegram &&
+          window.Telegram.WebApp &&
+          window.unityInstance &&
+          window.TON_CONNECT_UI &&
+          window.tonConnectUI
+        ) {
+          if (window.tonConnectUI.connected) {
+            window.Telegram.WebApp.showPopup(
+              {
+                title: "Disconnect your wallet",
+                message: "Your wallet will be disconnected.",
+                buttons: [
+                  { id: "1", type: "close", text: "Close" },
+                  { id: "2", type: "destructive", text: "Confirm" },
+                ],
+              },
+              function (val) {
+                if (val === "2") {
+                  window.tonConnectUI
+                    .disconnect()
+                    .then(() => window.fitScreen())
+                    .catch(() => window.fitScreen())
+                    .finally(() => window.fitScreen());
+                }
               }
-            }
-          );
-        } else {
-          // window.Telegram.WebApp.showAlert(
-          //   "Do You want to connect your wallet?",
-          //   () =>
-          window.unityInstance.SendMessage("GameManager", "ConnectWalletNew");
-          // );
+            );
+          } else {
+            // window.Telegram.WebApp.showAlert(
+            //   "Do You want to connect your wallet?",
+            //   () =>
+            window.unityInstance.SendMessage("GameManager", "ConnectWalletNew");
+            // );
+          }
         }
+      } catch (newOpenWallet) {
+        console.log({ newOpenWallet });
       }
     }
 
@@ -5678,10 +5683,19 @@ var ASM_CONSTS = {
         window.tonConnectUI
       ) {
         //window.fitScreen();
-        return window.tonConnectUI
-          .openModal()
-          .then(() => window.tonConnectUI.connected)
-          .catch(() => window.tonConnectUI.connected);
+        if (!window.tonConnectUI.connected) {
+          window.tonConnectUI
+            .openModal()
+            .then(() => window.tonConnectUI.connected)
+            .catch(() => window.tonConnectUI.connected);
+        } else {
+          window.fitScreen();
+          return true;
+        }
+        // window.tonConnectUI
+        //   .openModal()
+        //   .then(() => window.tonConnectUI.connected)
+        //   .catch(() => window.tonConnectUI.connected);
         // .finally(() => window.fitScreen());
       } else {
         return false;
