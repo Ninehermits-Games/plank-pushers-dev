@@ -85,9 +85,9 @@
     var buildUrl = "Build";
     var loaderUrl = buildUrl + "/build.loader.js";
     var config = {
-      dataUrl: buildUrl + "/e9413387520ec1347d9e094c2d1490a7.data",
-      frameworkUrl: buildUrl + "/2c0af95b7da0f4bfb28d43678e070dd2.js",
-        codeUrl: buildUrl + "/3589ec0e9ab34786097855438fd7dafe.wasm",
+      dataUrl: buildUrl + "/9afb027077c8850a3b2dd448606e9bad.data",
+      frameworkUrl: buildUrl + "/66958e4414c160c4db81fe533ee4f36a.js",
+        codeUrl: buildUrl + "/9467bb5c1f3fc8b97176e31e9927186b.wasm",
         streamingAssetsUrl: "StreamingAssets",
 		companyName: "DefaultCompany",
 		productName: "Plank Pushers",
@@ -170,16 +170,16 @@
     if (window.Telegram.WebApp) {
       window.Telegram.WebApp.ready();
       window.Telegram.WebApp.expand();
-	  window.Telegram.WebApp.setHeaderColor("#354C8A");
-      window.Telegram.WebApp.setBackgroundColor("#354C8A");
-      window.Telegram.WebApp.setBottomBarColor("#354C8A");
+	  window.Telegram.WebApp.setHeaderColor("#603B80");
+      window.Telegram.WebApp.setBackgroundColor("#603B80");
+      window.Telegram.WebApp.setBottomBarColor("#603B80");
       window.Telegram.WebApp.onEvent('invoiceClosed', async (object) => {
         console.log('#invoiceClosed', object);
         if (window.unityInstance) {
 			if(object.status === "paid"){ // stars
 				// disable button
 				window.unityInstance.SendMessage("RequestHandler", "PremiumCheckerFunction");
-				window.unityInstance.SendMessage("RequestHandler", "NotTask","3813-open-link-1726042474574");
+				//window.unityInstance.SendMessage("RequestHandler", "NotTask","3813-open-link-1726042474574");
 			  } else {
 				// enable button
 				console.log("stars closed");
