@@ -2436,6 +2436,25 @@ var ASM_CONSTS = {
       if (window.Telegram.WebApp && window.unityInstance) {
         try {
           const k = UTF8ToString(keys);
+  
+          const setItemsRecursively = (items, index = 0) => {
+            if (index < items.length) {
+              window.Telegram.WebApp.CloudStorage.setItem(
+                items[index].key,
+                items[index].value,
+                function (error, result) {
+                  if (error) {
+                    console.error(`Error setting ${items[index].key}:`, error);
+                  }
+                  // Call the next item
+                  setItemsRecursively(items, index + 1);
+                }
+              );
+            } else {
+              // All items have been set, send message to Unity
+              window.unityInstance.SendMessage("RequestHandler", "GetQuests");
+            }
+          };
           // window.Telegram.WebApp.CloudStorage.getItem(
           //   "questDate",
           //   function (err, value) {
@@ -2471,15 +2490,15 @@ var ASM_CONSTS = {
               if (vals.length > 0) {
                 const data = k.split(",").filter((key) => !vals.includes(key));
                 console.log({ data });
+  
+                const itemsToSet = [
+                  ...data.map((val) => ({ key: val, value: "0" })),
+                ];
+  
                 if (data.length > 0) {
-                  for (let i = 0; i < data.length; i++) {
-                    window.Telegram.WebApp.CloudStorage.setItem(data[i], "0");
-                  }
-                  window.unityInstance.SendMessage(
-                    "RequestHandler",
-                    "GetQuests",
-                    data
-                  );
+                  // for (let i = 0; i < data.length; i++) {
+                  //   window.Telegram.WebApp.CloudStorage.setItem(data[i], "0");
+                  // }
                   // window.Telegram.WebApp.CloudStorage.getItems(
                   //   k,
                   //   function (err, values) {
@@ -2497,6 +2516,7 @@ var ASM_CONSTS = {
                   //     }
                   //   }
                   // );
+                  setItemsRecursively(itemsToSet);
                 } else {
                   window.Telegram.WebApp.CloudStorage.getItems(
                     k.split(","),
@@ -5627,6 +5647,23 @@ var ASM_CONSTS = {
           //   data.questDate
           // );
   
+          const setItemsRecursively = (items, index = 0) => {
+            if (index < items.length) {
+              window.Telegram.WebApp.CloudStorage.setItem(
+                items[index].key,
+                items[index].value,
+                function (error, result) {
+                  if (error) {
+                    console.error(`Error setting ${items[index].key}:`, error);
+                  }
+                  setItemsRecursively(items, index + 1);
+                }
+              );
+            } else {
+              window.unityInstance.SendMessage("RequestHandler", "GetQuests");
+            }
+          };
+  
           window.Telegram.WebApp.CloudStorage.getItem(
             "questDate",
             function (err, value) {
@@ -5657,19 +5694,26 @@ var ASM_CONSTS = {
                         "inviteFriends",
                         "bonusTask",
                       ];
-                      for (let i = 0; i < quests.length; i++) {
-                        window.Telegram.WebApp.CloudStorage.setItem(
-                          quests[i],
-                          "0"
-                        );
-                      }
-                      window.Telegram.WebApp.CloudStorage.setItem("coins", "0");
-                      window.Telegram.WebApp.CloudStorage.setItem("score", "0");
-                      window.Telegram.WebApp.CloudStorage.setItem("points", "0");
-                      window.unityInstance.SendMessage(
-                        "RequestHandler",
-                        "GetQuests"
-                      );
+                      //   for (let i = 0; i < quests.length; i++) {
+                      //     window.Telegram.WebApp.CloudStorage.setItem(
+                      //       quests[i],
+                      //       "0"
+                      //     );
+                      //   }
+                      //   window.Telegram.WebApp.CloudStorage.setItem("coins", "0");
+                      //   window.Telegram.WebApp.CloudStorage.setItem("score", "0");
+                      //   window.Telegram.WebApp.CloudStorage.setItem("points", "0");
+                      //   window.unityInstance.SendMessage(
+                      //     "RequestHandler",
+                      //     "GetQuests"
+                      //   );
+                      const itemsToSet = [
+                        ...quests.map((quest) => ({ key: quest, value: "0" })),
+                        { key: "coins", value: "0" },
+                        { key: "score", value: "0" },
+                        { key: "points", value: "0" },
+                      ];
+                      setItemsRecursively(itemsToSet);
                     }
                   );
   
