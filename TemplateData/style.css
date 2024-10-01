@@ -35,6 +35,7 @@ body {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+	display: none;
 }
 
 #unity-loading-bar {
