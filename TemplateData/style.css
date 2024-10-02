@@ -40,7 +40,7 @@ position: absolute;
 #version-text {
 position: absolute;
     left: 50%;
-    top: 95%;
+    top: 90%;
     transform: translateX(-50%);
     color: white;
     font-family: "Solway", serif;
