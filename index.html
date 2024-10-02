@@ -27,6 +27,7 @@
   <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
   <!--<script src="https://www.unpkg.com/web-animations-js@latest/web-animations.min.js"></script>-->
   <link href="https://fonts.googleapis.com/css2?family=Slackey&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Solway:wght@300;400;500;700;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -44,6 +45,7 @@
         <div id="unity-progress-bar-value">0%</div>
       </div>
     </div>
+	<div id="version-text">© PLANKPUSHERS | GROWSTUDIO | 2024<br>Ver<span id="version-number"></span>.24-0001A</div>
     <div id="unity-warning"> </div>
   </div>
   <script>
@@ -88,15 +90,18 @@
     var buildUrl = "Build";
     var loaderUrl = buildUrl + "/build.loader.js";
     var config = {
-      dataUrl: buildUrl + "/2d6aaee94fbb0ddac4459cf4beae0315.data",
-      frameworkUrl: buildUrl + "/737cae53c24c3fa91b7f1c68c85677de.js",
-        codeUrl: buildUrl + "/507fc0c3b90a15582df2bd9b098f4e26.wasm",
+      dataUrl: buildUrl + "/bdacf8dad49946b4a1f2cda932e98743.data",
+      frameworkUrl: buildUrl + "/cda56a7c40f568056831c9aade21c1e9.js",
+        codeUrl: buildUrl + "/81178f9d19302c1526eac65d38e447d3.wasm",
         streamingAssetsUrl: "StreamingAssets",
 		companyName: "DefaultCompany",
 		productName: "Plank Pushers",
 		productVersion: "0.9",
 		showBanner: unityShowBanner,
       };
+	  
+	  // Set version number in the HTML dynamically
+    document.getElementById("version-number").innerText = config.productVersion;
 
     // By default Unity keeps WebGL canvas render target size matched with
     // the DOM size of the canvas element (scaled by window.devicePixelRatio)
