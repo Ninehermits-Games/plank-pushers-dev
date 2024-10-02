@@ -91,7 +91,7 @@
     var buildUrl = "Build";
     var loaderUrl = buildUrl + "/build.loader.js";
     var config = {
-      dataUrl: buildUrl + "/bdacf8dad49946b4a1f2cda932e98743.data",
+      dataUrl: buildUrl + "/10eb3e74414510706045781fb4436840.data",
       frameworkUrl: buildUrl + "/cda56a7c40f568056831c9aade21c1e9.js",
         codeUrl: buildUrl + "/81178f9d19302c1526eac65d38e447d3.wasm",
         streamingAssetsUrl: "StreamingAssets",
@@ -146,6 +146,8 @@
     loadingBar.style.display = "block";
 	loadingText.style.display = "block";
 	versionText.style.display = "block";
+	
+	window.fitScreen();
 
     var script = document.createElement("script");
     script.src = loaderUrl;
@@ -158,7 +160,8 @@
 		loadingText.style.display = "none";
 		versionText.style.display = "none";
         window.unityInstance = unityInstance;
-        window.fitScreen();
+        
+		window.fitScreen();
 
         if (window.unityInstance) {
           window.addEventListener('focus', function () {
