@@ -1,14 +1,12 @@
 body {
   padding: 0;
   margin: 0;
-  height: 100%; /* Ensure the body takes the full height */
 }
 
 #unity-container {
-  position: relative; /* Use relative to contain absolutely positioned children fixed*/
+  position: fixed;
   width: 100%;
   height: 100%;
-  overflow: hidden; /* Ensure content stays within the container */
 }
 
 #unity-canvas {
@@ -18,11 +16,13 @@ body {
   background-size: cover;
 }
 
+/*
 @media only screen and (max-width: 600px) {
   #unity-canvas {
     height: var(--tg-viewport-height, 100vh);
   }
 }
+*/
 
 #loading-text {
 	position: absolute;
@@ -42,7 +42,7 @@ body {
 #version-text {
 	position: absolute;
     left: 50%;
-	bottom: 0;
+	bottom: 1%;
     transform: translateX(-50%);
     color: white;
     font-family: "Solway", serif;
@@ -52,7 +52,6 @@ body {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-	padding-bottom: 5px;
 }
 
 #unity-loading-bar {
