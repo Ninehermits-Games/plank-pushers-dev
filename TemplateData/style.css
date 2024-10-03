@@ -23,22 +23,22 @@ body {
 }
 
 #loading-text {
-position: absolute;
-    left: 50%;
-    top: 78%;
-    transform: translateX(-50%);
-    color: white;
-    font-family: "Slackey", sans-serif;
-    font-size: 11px;
-    text-align: center;
-    width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+	position: absolute;
+	left: 50%;
+	top: 78%;
+	transform: translateX(-50%);
+	color: white;
+	font-family: "Slackey", sans-serif;
+	font-size: 11px;
+	text-align: center;
+	width: 100%;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
 #version-text {
-position: absolute;
+	position: absolute;
     left: 50%;
 	bottom: 1%;
     transform: translateX(-50%);
