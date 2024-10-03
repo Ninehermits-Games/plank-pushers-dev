@@ -40,7 +40,7 @@ body {
 #version-text {
 	position: absolute;
     left: 50%;
-	bottom: 1%;
+	bottom: 0;
     transform: translateX(-50%);
     color: white;
     font-family: "Solway", serif;
@@ -50,6 +50,7 @@ body {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+	padding-bottom: 5px;
 }
 
 #unity-loading-bar {
