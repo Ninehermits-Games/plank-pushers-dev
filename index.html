@@ -95,9 +95,9 @@
     var buildUrl = "Build";
     var loaderUrl = buildUrl + "/build.loader.js";
     var config = {
-      dataUrl: buildUrl + "/a1c0a526de4b2df346640af314f617b6.data",
-      frameworkUrl: buildUrl + "/81a2e11e8ba2321eab890670e5357013.js",
-        codeUrl: buildUrl + "/2854377476c8c0d270c02d9fccbf334f.wasm",
+      dataUrl: buildUrl + "/677f93cbed2774767e4de2927630df44.data",
+      frameworkUrl: buildUrl + "/53e0c4eaf8a09e9b0752c2bf0b2a2638.js",
+        codeUrl: buildUrl + "/96da5166ac392e4236677a302f059e18.wasm",
         streamingAssetsUrl: "StreamingAssets",
 		companyName: "DefaultCompany",
 		productName: "Plank Pushers",
@@ -220,7 +220,22 @@
 		
 
       }).catch((message) => {
-        alert(message);
+        if (window.Telegram.WebApp) {
+              window.Telegram.WebApp.showPopup(
+                {
+                  title: 'Oops, something went wrong',
+                  message: 'Some error occurred: ',
+                  buttons: [{ id: '2', text: 'Close' }],
+                },
+                function (val) {
+                  if (val === '2') {
+                    window.Telegram.WebApp.close();
+                  }
+                }
+              );
+            } else {
+              alert(message);
+            }
       });
     };
     document.body.appendChild(script);
