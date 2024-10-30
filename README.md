@@ -1,0 +1,1 @@
+[![Deploy static content to Pages](https://github.com/Ninehermits-Games/plank-pushers-dev/actions/workflows/static.yml/badge.svg)](https://github.com/Ninehermits-Games/plank-pushers-dev/actions/workflows/static.yml)
