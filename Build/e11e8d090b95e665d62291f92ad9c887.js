@@ -2186,18 +2186,13 @@ var ASM_CONSTS = {
     }
 
   function _ConsumableUsed(consumable) {
-      if (window.Telegram.WebApp && window.unityInstance && window.socket && io) {
-        if (io) {
-          window.socket = socket;
-          const consumableType = UTF8ToString(consumable);
-          socket.emit("consumableUsed", {
-            consumableType: consumableType,
-          });
-        } else {
-          console.warn(
-            "Socket library not defined. Please check that you added a script tag in the head of the index.html file of the build."
-          );
-        }
+      if (window.Telegram.WebApp && window.unityInstance && window.socket) {
+        const consumableType = UTF8ToString(consumable);
+        window.socket.emit("consumableUsed", {
+          consumableType: consumableType,
+        });
+      } else {
+        console.log({ consumable: "Socket library not defined" });
       }
     }
 
@@ -2476,14 +2471,14 @@ var ASM_CONSTS = {
             },
           });
           window.socket = socket;
-          socket.on("connect", () => {
+          window.socket.on("connect", () => {
             console.log("Connection was successful");
           });
   
-          socket.on("consumablesSync", (response) => {
+          window.socket.on("consumablesSync", (response) => {
             console.log("consumablesSync", response);
           });
-          socket.on("consumableError", (response) => {
+          window.socket.on("consumableError", (response) => {
             console.log("consumableError", response);
           });
         } else {
@@ -5063,17 +5058,12 @@ var ASM_CONSTS = {
   	}
 
   function _JoinGame() {
-      if (window.Telegram.WebApp && window.unityInstance && window.socket && io) {
-        if (io) {
-          window.socket = socket;
-          socket.on("joinGame", (data) => {
-            console.log("joinGame", data);
-          });
-        } else {
-          console.warn(
-            "Socket library not defined. Please check that you added a script tag in the head of the index.html file of the build."
-          );
-        }
+      if (window.Telegram.WebApp && window.unityInstance && window.socket) {
+        window.socket.on("joinGame", (data) => {
+          console.log("joinGame", data);
+        });
+      } else {
+        console.log({ joinGame: "Socket library not defined" });
       }
     }
 
