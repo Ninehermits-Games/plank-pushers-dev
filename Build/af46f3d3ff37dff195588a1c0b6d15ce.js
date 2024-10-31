@@ -2232,48 +2232,54 @@ var ASM_CONSTS = {
       }
     }
 
-  var Data = {SocketGameObjectName:"",sockets:{},CallUnityEvent:function(id, event, data) {
-              var JsonData = null
-              if(data != null) {
-                  JsonData = data
-              }
-              unityInstance.SendMessage(Data.SocketGameObjectName, 'callSocketEvent', JSON.stringify({
-                  EventName: event,
-                  SocketId: id,
-                  JsonData: JsonData
-              }));
-          }};
+  var Data = {SocketGameObjectName:"",sockets:{},CallUnityEvent:function (id, event, data) {
+        var JsonData = null;
+        if (data != null) {
+          JsonData = data;
+        }
+        unityInstance.SendMessage(
+          Data.SocketGameObjectName,
+          "callSocketEvent",
+          JSON.stringify({
+            EventName: event,
+            SocketId: id,
+            JsonData: JsonData,
+          })
+        );
+      }};
   function _EstablishSocket(url_raw, options_raw) {
-          if(io != undefined) {
-              const url = Pointer_stringify(url_raw);
-              const options = Pointer_stringify(options_raw); //string of user options selected
+      if (io != undefined) {
+        const url = UTF8ToString(url_raw);
+        const options = UTF8ToString(options_raw); //string of user options selected
   
-              var soc;
-              if(options.length > 0) 
-                  soc = io(url, JSON.parse(options));
-              else 
-                  soc = io(url);
-              
-              var id = 0;
-              do {
-                  //generate an id between 1 and 10000
-                  id = Math.floor(Math.random() * 10000) + 1;
-              } while(Data.sockets.has(id));
+        var soc;
+        if (options.length > 0) soc = io(url, JSON.parse(options));
+        else soc = io(url);
   
-              Data.sockets.set(id, soc);
+        var id = 0;
+        do {
+          //generate an id between 1 and 10000
+          id = Math.floor(Math.random() * 10000) + 1;
+        } while (Data.sockets.has(id));
   
-              var cur = this;
+        Data.sockets.set(id, soc);
   
-              soc.onAny(function(event, args) {
-                  Data.CallUnityEvent(id, event, args);
-              });
+        var cur = this;
   
-              return id;
-          } else {
-              console.error("SocketIO io object not found! Did you forget to include Reference in header?");
-              throw new Error("SocketIO object not found! Did you forget to include Reference in header?");
-          }
+        soc.onAny(function (event, args) {
+          Data.CallUnityEvent(id, event, args);
+        });
+  
+        return id;
+      } else {
+        console.error(
+          "SocketIO io object not found! Did you forget to include Reference in header?"
+        );
+        throw new Error(
+          "SocketIO object not found! Did you forget to include Reference in header?"
+        );
       }
+    }
 
   function _FitToScreen() {
       if (window && window.Telegram && window.Telegram.WebApp) {
@@ -2399,13 +2405,16 @@ var ASM_CONSTS = {
     }
 
   function _GetProtocol() {
-          if(io != undefined)
-              return io.getProtocol;
-          else {
-              console.error("SocketIO io object not found! Did you forget to include Reference in header?");
-              throw new Error("SocketIO object not found! Did you forget to include Reference in header?");
-          }
+      if (io != undefined) return io.getProtocol;
+      else {
+        console.error(
+          "SocketIO io object not found! Did you forget to include Reference in header?"
+        );
+        throw new Error(
+          "SocketIO object not found! Did you forget to include Reference in header?"
+        );
       }
+    }
 
   function _GetUserData() {
       if (window && window.Telegram && window.Telegram.WebApp) {
@@ -5724,9 +5733,9 @@ var ASM_CONSTS = {
     }
 
   function _SetupGameObjectName(str) {
-          Data.SocketGameObjectName = Pointer_stringify(str);
-          Data.sockets = new Map();
-      }
+      Data.SocketGameObjectName = UTF8ToString(str);
+      Data.sockets = new Map();
+    }
 
   function _ShareInviteLink(link) {
       const l = UTF8ToString(link);
@@ -5798,36 +5807,38 @@ var ASM_CONSTS = {
     }
 
   function _Socket_Connect(id) {
-          Data.sockets.get(id).connect();
-      }
+      Data.sockets.get(id).connect();
+    }
 
   function _Socket_Disconnect(id) {
-          Data.sockets.get(id).disconnect();
-      }
+      Data.sockets.get(id).disconnect();
+    }
 
   function _Socket_Emit(id, event_raw, data_raw) {
-          if(Pointer_stringify(data_raw).length == 0) {
-              Data.sockets.get(id).emit(Pointer_stringify(event_raw), null);
-          } else {
-              Data.sockets.get(id).emit(Pointer_stringify(event_raw), Pointer_stringify(data_raw));
-          }
+      if (UTF8ToString(data_raw).length == 0) {
+        Data.sockets.get(id).emit(UTF8ToString(event_raw), null);
+      } else {
+        Data.sockets
+          .get(id)
+          .emit(UTF8ToString(event_raw), UTF8ToString(data_raw));
       }
+    }
 
   function _Socket_Get_Conn_Id(id) {
-          var result = Data.sockets.get(id).id;
-          if(result != undefined) {
-              var buffersize = lengthBytesUTF8(result) + 1;
-              var buffer = _malloc(buffersize);
-              stringToUTF8(result, buffer, bufferSize);
-              return buffer;
-          } else {
-              return null;
-          }
+      var result = Data.sockets.get(id).id;
+      if (result != undefined) {
+        var buffersize = lengthBytesUTF8(result) + 1;
+        var buffer = _malloc(buffersize);
+        stringToUTF8(result, buffer, bufferSize);
+        return buffer;
+      } else {
+        return null;
       }
+    }
 
   function _Socket_IsConnected(id) {
-          return Data.sockets.get(id).connected;
-      }
+      return Data.sockets.get(id).connected;
+    }
 
   async function _Validate(urlPtr) {
       if (window.Telegram.WebApp && window.unityInstance) {
