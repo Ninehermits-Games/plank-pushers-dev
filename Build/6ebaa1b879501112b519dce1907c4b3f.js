@@ -2482,7 +2482,7 @@ var ASM_CONSTS = {
             // console.log("consumablesSync", response);
             const data = JSON.stringify(response);
             window.unityInstance.SendMessage(
-              "GameManager",
+              "Player",
               "SetConsumablesFromServer",
               data
             );
