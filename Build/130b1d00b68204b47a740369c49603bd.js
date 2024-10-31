@@ -2186,7 +2186,11 @@ var ASM_CONSTS = {
     }
 
   function _ConsumableUsed(consumable) {
-      if (window.Telegram.WebApp && window.unityInstance && window.socket) {
+      if (
+        window.Telegram.WebApp &&
+        window.unityInstance &&
+        window.socket.connected
+      ) {
         const consumableType = UTF8ToString(consumable);
         window.socket.emit("consumableUsed", {
           consumableType: consumableType,
@@ -5058,10 +5062,13 @@ var ASM_CONSTS = {
   	}
 
   function _JoinGame() {
-      if (window.Telegram.WebApp && window.unityInstance && window.socket) {
-        window.socket.on("joinGame", (data) => {
-          console.log("joinGame", data);
-        });
+      if (
+        window.Telegram.WebApp &&
+        window.unityInstance &&
+        window.socket.connected
+      ) {
+        window.socket.emit("joinGame");
+        console.log("Joined Game");
       } else {
         console.log({ joinGame: "Socket library not defined" });
       }
