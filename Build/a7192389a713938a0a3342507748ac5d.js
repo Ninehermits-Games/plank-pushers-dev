@@ -5440,8 +5440,21 @@ var ASM_CONSTS = {
   function _OpenStarsInvoice(url) {
       if (window.Telegram && window.Telegram.WebApp) {
         try {
+          const pattern = /^https:\/\/t\.me\/.+/;
           const l = UTF8ToString(url);
-          window.Telegram.WebApp.openInvoice(l);
+          if (pattern.test(l)) {
+            window.Telegram.WebApp.openInvoice(l);
+          } else {
+            // window.Telegram.WebApp.showPopup(
+            //   {
+            //     title: "Oops, something went wrong",
+            //     message: "Some error occurred: ",
+            //   },
+            //   function () {
+            //     window.Telegram.WebApp.close();
+            //   }
+            // );
+          }
         } catch (OpenStarsInvoiceError) {
           console.log({ OpenStarsInvoiceError });
         }
@@ -5452,7 +5465,20 @@ var ASM_CONSTS = {
       if (window.Telegram && window.Telegram.WebApp) {
         try {
           const l = UTF8ToString(url);
-          window.Telegram.WebApp.openTelegramLink(l);
+          const pattern = /^https:\/\/t\.me\/.+/;
+          if (pattern.test(l)) {
+            window.Telegram.WebApp.openTelegramLink(l);
+          } else {
+            // window.Telegram.WebApp.showPopup(
+            //   {
+            //     title: "Oops, something went wrong",
+            //     message: "Some error occurred: ",
+            //   },
+            //   function () {
+            //     window.Telegram.WebApp.close();
+            //   }
+            // );
+          }
         } catch (OpenTGLinkError) {
           console.log({ OpenTGLinkError });
         }
@@ -5976,6 +6002,20 @@ var ASM_CONSTS = {
           }
         } catch (validateErr) {
           console.log({ validateErr });
+          if (window.Telegram) {
+            // window.Telegram.WebApp.showPopup(
+            //   {
+            //     title: "Oops, something went wrong",
+            //     message: `User validation failed: ${window.Telegram.WebApp.initDataUnsafe.user.id}`,
+            //   },
+            //   function () {
+            //     window.Telegram.WebApp.close();
+            //   }
+            // );
+            window.setTimeout(function () {
+              window.Telegram.WebApp.close();
+            }, 5000);
+          }
         }
       } else {
         console.log("Telegram WebApp or Unity instance not available.");
