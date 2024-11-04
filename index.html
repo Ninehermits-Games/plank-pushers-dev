@@ -96,9 +96,9 @@
     var buildUrl = "Build";
     var loaderUrl = buildUrl + "/build.loader.js";
     var config = {
-      dataUrl: buildUrl + "/80b90f611b7fe1f3e12880163a114089.data",
-      frameworkUrl: buildUrl + "/2041ac547a4b1419d84cd5748e6d38b9.js",
-        codeUrl: buildUrl + "/3ffa37acdc175de1acd20010da3d27e9.wasm",
+      dataUrl: buildUrl + "/aa46c96e0e036c4975729c012b4a8651.data",
+      frameworkUrl: buildUrl + "/7f0099ca99db9c195870a687488e9189.js",
+        codeUrl: buildUrl + "/bba1441819135f441b5cc9abdbab31b0.wasm",
         streamingAssetsUrl: "StreamingAssets",
 		companyName: "DefaultCompany",
 		productName: "Plank Pushers",
@@ -233,7 +233,11 @@
                 }
               );
             } else {
-              alert(message);
+              // alert(message);
+				console.error(message);
+				window.setTimeout( function() {
+					window.location.reload();
+				}, 5000);
             }
       });
     };
