@@ -5278,13 +5278,13 @@ var ASM_CONSTS = {
     }
 
   async function _OkxWalletInitalize(returnUrl, manifest) {
-      if (
-        window &&
-        window.Telegram &&
-        window.Telegram.WebApp &&
-        OKXTonConnectSDK
-      ) {
-        try {
+      try {
+        if (
+          window &&
+          window.Telegram &&
+          window.Telegram.WebApp &&
+          OKXTonConnectSDK
+        ) {
           const manifestUrl = UTF8ToString(manifest);
           const twaReturnUrl = UTF8ToString(returnUrl);
   
@@ -5428,9 +5428,9 @@ var ASM_CONSTS = {
               okxStatus();
             }
           }
-        } catch (OkxWalletInitalizeErr) {
-          console.log({ OkxWalletInitalizeErr });
         }
+      } catch (OkxWalletInitalizeErr) {
+        console.log({ OkxWalletInitalizeErr });
       }
     }
 
@@ -5525,19 +5525,23 @@ var ASM_CONSTS = {
     }
 
   async function _SaveWalletData(url, token) {
-      if (window.tonConnectUI.connected) {
-        const l = UTF8ToString(url);
-        const authToken = UTF8ToString(token);
-        const account = window.tonConnectUI.account;
-        const response = await fetch(`${l}wallet`, {
-          body: JSON.stringify(account),
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${authToken}`,
-          },
-        });
-        console.log({ response });
+      try {
+        if (window.tonConnectUI.connected) {
+          const l = UTF8ToString(url);
+          const authToken = UTF8ToString(token);
+          const account = window.tonConnectUI.account;
+          const response = await fetch(`${l}wallet`, {
+            body: JSON.stringify(account),
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${authToken}`,
+            },
+          });
+          console.log({ response });
+        }
+      } catch (saveWalletDataError) {
+        console.log({ saveWalletDataError });
       }
     }
 
@@ -5693,60 +5697,16 @@ var ASM_CONSTS = {
     }
 
   async function _SendTransaction(address, amount, payload, inv_t) {
-      if (window.unityInstance && window.Telegram && window.Telegram.WebApp) {
-        const add = UTF8ToString(address);
-        const amt = UTF8ToString(amount);
-        const ply = UTF8ToString(payload);
-        const inv_type = UTF8ToString(inv_t);
-        const time_out = Math.floor(Date.now() / 1000) + 60;
-        if (window.tonConnectUI.connected) {
-          var transaction = {
-            validUntil: time_out, // 60 sec
-            messages: [
-              {
-                address: add,
-                amount: amt,
-                payload: ply,
-              },
-            ],
-          };
-  
-          try {
-            const result = await window.tonConnectUI.sendTransaction(
-              transaction,
-              {
-                modals: ["before", "success", "error"],
-                notifications: ["before", "success", "error"],
-              }
-            );
-            const values = {
-              boc: result.boc,
-              time_out: time_out,
-              payload: ply,
-              inv_type: inv_type,
-              walletType: "ton-connect",
-            };
-            window.tonConnectUI.closeModal();
-  
-            const invoiceData = JSON.stringify(values);
-            window.unityInstance.SendMessage(
-              "RequestHandler",
-              "SetTransactionStatus",
-              invoiceData
-            );
-            console.log({ result });
-            window.Telegram.WebApp.showPopup({
-              title: "Processing your payment...",
-              message:
-                "We are waiting for the TON blockchain to confirm your transaction.\n This might take a moment.\n Please hold tight and do not refresh or exit the app.",
-            });
-            // you can use signed boc to find the transaction
-          } catch (sendTonConnectTransactionError) {
-            console.log({ sendTonConnectTransactionError });
-          }
-        } else if (window.OKX_TON && window.OKX_TON.connected) {
-          try {
-            const data = {
+      try {
+        if (window.unityInstance && window.Telegram && window.Telegram.WebApp) {
+          const add = UTF8ToString(address);
+          const amt = UTF8ToString(amount);
+          const ply = UTF8ToString(payload);
+          const inv_type = UTF8ToString(inv_t);
+          const time_out = Math.floor(Date.now() / 1000) + 60;
+          if (window.tonConnectUI.connected) {
+            var transaction = {
+              validUntil: time_out, // 60 sec
               messages: [
                 {
                   address: add,
@@ -5754,33 +5714,81 @@ var ASM_CONSTS = {
                   payload: ply,
                 },
               ],
-              valid_until: time_out,
-              from: window.OKX_TON._wallet.account.address,
-              network: window.OKX_TON._wallet.account.chain,
             };
   
-            const result = await window.OKX_TON.sendTransaction(data);
-            console.log({ result });
+            try {
+              const result = await window.tonConnectUI.sendTransaction(
+                transaction,
+                {
+                  modals: ["before", "success", "error"],
+                  notifications: ["before", "success", "error"],
+                }
+              );
+              const values = {
+                boc: result.boc,
+                time_out: time_out,
+                payload: ply,
+                inv_type: inv_type,
+                walletType: "ton-connect",
+              };
+              window.tonConnectUI.closeModal();
   
-            const values = {
-              boc: result.boc,
-              time_out: time_out,
-              payload: ply,
-              inv_type: inv_type,
-              walletType: "okx-wallet",
-            };
+              const invoiceData = JSON.stringify(values);
+              window.unityInstance.SendMessage(
+                "RequestHandler",
+                "SetTransactionStatus",
+                invoiceData
+              );
+              console.log({ result });
+              window.Telegram.WebApp.showPopup({
+                title: "Processing your payment...",
+                message:
+                  "We are waiting for the TON blockchain to confirm your transaction.\n This might take a moment.\n Please hold tight and do not refresh or exit the app.",
+              });
+              // you can use signed boc to find the transaction
+            } catch (sendTonConnectTransactionError) {
+              console.log({ sendTonConnectTransactionError });
+            }
+          } else if (window.OKX_TON && window.OKX_TON.connected) {
+            try {
+              const data = {
+                messages: [
+                  {
+                    address: add,
+                    amount: amt,
+                    payload: ply,
+                  },
+                ],
+                valid_until: time_out,
+                from: window.OKX_TON._wallet.account.address,
+                network: window.OKX_TON._wallet.account.chain,
+              };
   
-            const invoiceData = JSON.stringify(values);
-            window.unityInstance.SendMessage(
-              "RequestHandler",
-              "SetTransactionStatus",
-              invoiceData
-            );
-          } catch (sendOKXTransactionError) {
-            console.log({ sendOKXTransactionError });
-            console.log({ code: sendOKXTransactionError.code });
+              const result = await window.OKX_TON.sendTransaction(data);
+              console.log({ result });
+  
+              const values = {
+                boc: result.boc,
+                time_out: time_out,
+                payload: ply,
+                inv_type: inv_type,
+                walletType: "okx-wallet",
+              };
+  
+              const invoiceData = JSON.stringify(values);
+              window.unityInstance.SendMessage(
+                "RequestHandler",
+                "SetTransactionStatus",
+                invoiceData
+              );
+            } catch (sendOKXTransactionError) {
+              console.log({ sendOKXTransactionError });
+              console.log({ code: sendOKXTransactionError.code });
+            }
           }
         }
+      } catch (sendTransactionError) {
+        console.log({ sendTransactionError });
       }
     }
 
@@ -6086,83 +6094,95 @@ var ASM_CONSTS = {
     }
 
   function _WalletConnect() {
-      if (
-        window &&
-        window.Telegram &&
-        window.Telegram.WebApp &&
-        window.TON_CONNECT_UI &&
-        window.tonConnectUI
-      ) {
-        (async () => {
-          if (window.OKX_TON && window.OKX_TON.connected) {
-            try {
-              await window.OKX_TON.disconnect();
-            } catch (okxDisconnectErr) {
-              console.log({ okxDisconnectErr });
-            } finally {
-              window.fitScreen();
-            }
-          }
-        })();
-  
-        if (!window.tonConnectUI.connected) {
+      try {
+        if (
+          window &&
+          window.Telegram &&
+          window.Telegram.WebApp &&
+          window.TON_CONNECT_UI &&
           window.tonConnectUI
-            .openModal()
-            .then(() => window.tonConnectUI.connected)
-            .catch(() => window.tonConnectUI.connected);
+        ) {
+          (async () => {
+            if (window.OKX_TON && window.OKX_TON.connected) {
+              try {
+                await window.OKX_TON.disconnect();
+              } catch (okxDisconnectErr) {
+                console.log({ okxDisconnectErr });
+              } finally {
+                window.fitScreen();
+              }
+            }
+          })();
+  
+          if (!window.tonConnectUI.connected) {
+            window.tonConnectUI
+              .openModal()
+              .then(() => window.tonConnectUI.connected)
+              .catch(() => window.tonConnectUI.connected);
+          } else {
+            window.fitScreen();
+            return true;
+          }
         } else {
-          window.fitScreen();
-          return true;
+          return false;
         }
-      } else {
-        return false;
+      } catch (err) {
+        console.log({ err });
       }
     }
 
   function _WalletConnected() {
-      if (
-        window &&
-        window.Telegram &&
-        window.Telegram.WebApp &&
-        window.TON_CONNECT_UI &&
-        window.tonConnectUI
-      ) {
-        return window.tonConnectUI.connected;
-      } else {
+      try {
+        if (
+          window &&
+          window.Telegram &&
+          window.Telegram.WebApp &&
+          window.TON_CONNECT_UI &&
+          window.tonConnectUI
+        ) {
+          return window.tonConnectUI.connected;
+        } else {
+          return false;
+        }
+      } catch (err) {
         return false;
       }
     }
 
   function _WalletInfo() {
-      if (
-        window &&
-        window.Telegram &&
-        window.Telegram.WebApp &&
-        window.TON_CONNECT_UI &&
-        window.tonConnectUI
-      ) {
-        const tonConnectUI = window.tonConnectUI;
-        const currentWallet = tonConnectUI.wallet;
-        const currentWalletInfo = tonConnectUI.walletInfo;
-        const currentAccount = tonConnectUI.account;
-        const currentIsConnectedStatus = tonConnectUI.connected;
-        console.log({
-          currentWallet,
-          currentWalletInfo,
-          currentAccount,
-          currentIsConnectedStatus,
-        });
+      try {
+        if (
+          window &&
+          window.Telegram &&
+          window.Telegram.WebApp &&
+          window.TON_CONNECT_UI &&
+          window.tonConnectUI
+        ) {
+          const tonConnectUI = window.tonConnectUI;
+          const currentWallet = tonConnectUI.wallet;
+          const currentWalletInfo = tonConnectUI.walletInfo;
+          const currentAccount = tonConnectUI.account;
+          const currentIsConnectedStatus = tonConnectUI.connected;
+          console.log({
+            currentWallet,
+            currentWalletInfo,
+            currentAccount,
+            currentIsConnectedStatus,
+          });
+        }
+      } catch (err) {
+        console.log({ err });
       }
     }
 
   function _WalletInitalize(returnUrl, manifest) {
-      if (
-        window &&
-        window.Telegram &&
-        window.Telegram.WebApp &&
-        window.TON_CONNECT_UI
-      ) {
-        try {
+      try {
+        if (
+          window &&
+          window.Telegram &&
+          window.Telegram.WebApp &&
+          window.TON_CONNECT_UI
+        ) {
           const manifestUrl = UTF8ToString(manifest);
           const tonConnectUI = new window.TON_CONNECT_UI.TonConnectUI({
             manifestUrl: manifestUrl,
@@ -6183,9 +6203,9 @@ var ASM_CONSTS = {
               );
             }
           );
-        } catch (err) {
-          console.log(err);
         }
+      } catch (err) {
+        console.log(err);
       }
     }
 
