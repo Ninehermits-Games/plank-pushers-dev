@@ -5257,18 +5257,22 @@ var ASM_CONSTS = {
     }
 
   function _OKXWalletConnected() {
-      if (
-        window &&
-        window.Telegram &&
-        window.Telegram.WebApp &&
-        OKXTonConnectSDK
-      ) {
-        if (!window.OKX_TON || !window.OKX_TON.connected) {
-          return false;
+      try {
+        if (
+          window &&
+          window.Telegram &&
+          window.Telegram.WebApp &&
+          window.OKXTonConnectSDK
+        ) {
+          if (!window.OKX_TON || !window.OKX_TON.connected) {
+            return false;
+          } else {
+            return true;
+          }
         } else {
-          return true;
+          return false;
         }
-      } else {
+      } catch (err) {
         return false;
       }
     }
