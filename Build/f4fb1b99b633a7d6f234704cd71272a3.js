@@ -2196,6 +2196,8 @@ var ASM_CONSTS = {
 
   function _CloseWebFrame() {
       document.getElementById("webFrame").style.display = "none";
+      document.getElementById("closeButton").style.display = "none";
+      document.getElementById("webFrame").src = "";
     }
 
   function _ConsumableUsed(consumable) {
@@ -5395,6 +5397,7 @@ var ASM_CONSTS = {
   function _OpenWebFrame(url) {
       document.getElementById("webFrame").src = UTF8ToString(url);
       document.getElementById("webFrame").style.display = "block";
+      document.getElementById("closeButton").style.display = "block";
     }
 
   async function _QuestClaim(url, token, key) {
