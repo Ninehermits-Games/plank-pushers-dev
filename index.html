@@ -98,9 +98,9 @@
     var buildUrl = "Build";
     var loaderUrl = buildUrl + "/build.loader.js";
     var config = {
-      dataUrl: buildUrl + "/de75e5bb90d418bcad1c3b48794655c8.data",
-      frameworkUrl: buildUrl + "/3ad35a6257a7fcbf74bcc4dd7f849995.js",
-        codeUrl: buildUrl + "/c445f7e108e8f48f0c00291ad8ffbf0d.wasm",
+      dataUrl: buildUrl + "/45b42f43987797728112ae5fff689e10.data",
+      frameworkUrl: buildUrl + "/9f3ced7cbab65dc967fb9bba2143b2f1.js",
+        codeUrl: buildUrl + "/c8f5d1809e33c2655cfc61a69d93e586.wasm",
         streamingAssetsUrl: "StreamingAssets",
 		companyName: "DefaultCompany",
 		productName: "Plank Pushers",
@@ -310,6 +310,23 @@
         //});
     }
   </script>
+  <script>
+        function OpenWebFrame(url) {
+            let webFrame = document.getElementById("webFrame");
+            let closeButton = document.getElementById("closeButton");
+            webFrame.src = url;
+            webFrame.style.display = "block";
+            closeButton.style.display = "block";
+        }
+
+        function CloseWebFrame() {
+            let webFrame = document.getElementById("webFrame");
+            let closeButton = document.getElementById("closeButton");
+            webFrame.style.display = "none";
+            closeButton.style.display = "none";
+            webFrame.src = "";
+        }
+    </script>
    <!--<script>eruda.init();</script>  -->
   <!-- <div id="ton-connect"></div> -->
 </body>
