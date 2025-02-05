@@ -118,6 +118,7 @@ body {
 
 #webFrame {
   display: none; /* Hidden by default */
+  visibility: hidden;
   position: absolute;
   top: 10%;
   left: 10%;
@@ -128,6 +129,7 @@ body {
 }
 #closeButton {
   display: none; /* Hidden by default */
+  visibility: hidden;
   position: absolute;
   top: 10%;
   left: 10%;

@@ -2197,6 +2197,8 @@ var ASM_CONSTS = {
   function _CloseWebFrame() {
       document.getElementById("webFrame").style.display = "none";
       document.getElementById("closeButton").style.display = "none";
+      document.getElementById("closeButton").style.visibility = "hidden";
+      document.getElementById("webFrame").style.visibility = "hidden";
       document.getElementById("webFrame").src = "";
     }
 
@@ -5398,6 +5400,8 @@ var ASM_CONSTS = {
       document.getElementById("webFrame").src = UTF8ToString(url);
       document.getElementById("webFrame").style.display = "block";
       document.getElementById("closeButton").style.display = "block";
+      document.getElementById("closeButton").style.visibility = "visible";
+      document.getElementById("webFrame").style.visibility = "visible";
     }
 
   async function _QuestClaim(url, token, key) {
