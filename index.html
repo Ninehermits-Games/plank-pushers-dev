@@ -54,8 +54,8 @@
     </div>
     <div id="version-text">© PLANKPUSHERS | GROWSTUDIO | 2024<br>Ver<span id="version-number"></span>.24-0001A</div>
     <div id="unity-warning"> </div>
-    <iframe id="webFrame" src=""></iframe>
-    <button id="closeButton" onclick="closeWebFrame()">Close</button>
+    <!-- <iframe id="webFrame" src=""></iframe>
+    <button id="closeButton" onclick="closeWebFrame()">Close</button> -->
   </div>
   <script>
     window.addEventListener("load", function () {
@@ -102,10 +102,10 @@
     var config = {
       dataUrl: buildUrl + "/de75e5bb90d418bcad1c3b48794655c8.data",
       frameworkUrl: buildUrl + "/3ad35a6257a7fcbf74bcc4dd7f849995.js",
-        codeUrl: buildUrl + "/c445f7e108e8f48f0c00291ad8ffbf0d.wasm",
-        streamingAssetsUrl: "StreamingAssets",
+      codeUrl: buildUrl + "/c445f7e108e8f48f0c00291ad8ffbf0d.wasm",
+      streamingAssetsUrl: "StreamingAssets",
       companyName: "DefaultCompany",
-    productName: { { { JSON.stringify(PRODUCT_NAME) } } },
+      productName: { { { JSON.stringify(PRODUCT_NAME) } } },
     productVersion: { { { JSON.stringify(PRODUCT_VERSION) } } },
     showBanner: unityShowBanner,
       };
