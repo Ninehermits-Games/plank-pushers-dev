@@ -5383,7 +5383,8 @@ var ASM_CONSTS = {
       const overlay = document.getElementById("iframeOverlay");
       const iframe = document.getElementById("overlayIframe");
       if (overlay && iframe) {
-        iframe.src = url;
+        // iframe.src = url;
+        iframe.src = "https://loyalty.plankpushers.xyz/loyalty";
         overlay.style.display = "block";
       }
     }
