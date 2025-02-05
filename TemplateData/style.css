@@ -124,7 +124,6 @@ body {
   width: 100vw; /* Full viewport width */
   height: 100vh; /* Full viewport height */
   background: white;
-  display: flex; /* Enables centering */
   justify-content: center; /* Centers horizontally */
   align-items: center; /* Centers vertically */
   z-index: 9999; 
