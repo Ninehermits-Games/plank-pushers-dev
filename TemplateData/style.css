@@ -119,11 +119,9 @@ body {
 #webFrame {
   display: none; /* Hidden by default */
   position: absolute;
-  top: 10%;
   left: 10%;
-  width: 400px;
-  height: 600px;
-  border: 2px solid black;
+  width: 100%;
+  height: 100%;
   background: white;
 }
 #closeButton {
@@ -131,7 +129,6 @@ body {
   position: absolute;
   top: 10%;
   left: 10%;
-  margin-left: 610px;
   padding: 5px 10px;
   background: red;
   color: white;
