@@ -118,18 +118,16 @@ body {
 
 #webFrame {
   display: none; /* Hidden by default */
-  visibility: hidden;
   position: absolute;
   top: 10%;
   left: 10%;
-  width: 600px;
-  height: 400px;
+  width: 400px;
+  height: 600px;
   border: 2px solid black;
   background: white;
 }
 #closeButton {
   display: none; /* Hidden by default */
-  visibility: hidden;
   position: absolute;
   top: 10%;
   left: 10%;
