@@ -118,7 +118,7 @@ body {
 
 #webFrame {
   display: none;
-  position: fixed; /* Ensures it covers the entire screen */
+  position: absolute; /* Ensures it covers the entire screen */
   top: 0;
   left: 0;
   width: 100vw; /* Full viewport width */
