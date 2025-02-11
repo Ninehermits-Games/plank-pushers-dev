@@ -125,10 +125,10 @@ body {
   height: 100%; /* Full viewport height */
   background: white;
   justify-content: center; /* Centers horizontally */
-  align-items: center; /* Centers vertically */ 
+  align-items: center; /* Centers vertically */
 }
-#closeButton {
-  display: none; /* Hidden by default */
+/* #closeButton {
+  display: none; 
   position: absolute;
   top: 10%;
   left: 10%;
@@ -137,4 +137,23 @@ body {
   color: white;
   border: none;
   cursor: pointer;
+} 
+*/
+
+#closeButton {
+  display: none; /* Hidden by default */
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  background: red;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  text-align: center;
+  line-height: 30px;
+  font-weight: bold;
 }
