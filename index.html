@@ -52,9 +52,15 @@
     </div>
 	<div id="version-text">© PLANKPUSHERS | GROWSTUDIO | 2024<br>Ver<span id="version-number"></span>.24-0001A</div>
     <div id="unity-warning"> </div>
-	<iframe id="webFrame" src=""></iframe>
-    <!--<button id="closeButton" onclick="CloseWebFrame()">Close</button>-->
-	<button id="closeButton" onclick="CloseWebFrame()">
+	<!-- <iframe id="webFrame" src=""></iframe>
+	<button id="closeButton" onclick="CloseWebFrame()"> -->
+	<div id="iframeContainer">
+  <div id="iframeHeader">
+    <button id="backButton" onclick="CloseWebFrame()">&#x2190;</button>
+    <span id="iframeTitle">Page Title</span>
+  </div>
+  <iframe id="webFrame" src=""></iframe>
+</div>
   &times;
 </button>
   </div>
@@ -101,9 +107,9 @@
     var buildUrl = "Build";
     var loaderUrl = buildUrl + "/build.loader.js";
     var config = {
-      dataUrl: buildUrl + "/b0141b7fd5eeda81feb8e43090e539e7.data",
-      frameworkUrl: buildUrl + "/07acec1dd2f29106ec70e9c4e9a6894f.js",
-        codeUrl: buildUrl + "/cda5fef35b3dc8bb9b12d794f6fbf7a4.wasm",
+      dataUrl: buildUrl + "/da202645c3cfb94709610d0ef8539cbf.data",
+      frameworkUrl: buildUrl + "/feee3cbd15d442393efedad4df7a0eaa.js",
+        codeUrl: buildUrl + "/89cd4d2ee913ddc87ef8e7af14b0400d.wasm",
         streamingAssetsUrl: "StreamingAssets",
 		companyName: "DefaultCompany",
 		productName: "Plank Pushers",
@@ -322,13 +328,17 @@
             closeButton.style.display = "block";
         }*/
 
-        function CloseWebFrame() {
+        /*function CloseWebFrame() {
             let webFrame = document.getElementById("webFrame");
             let closeButton = document.getElementById("closeButton");
             webFrame.style.display = "none";
             closeButton.style.display = "none";
             webFrame.src = "";
-        }
+        }*/
+		function CloseWebFrame() {
+    document.getElementById("iframeContainer").style.display = "none";
+    document.getElementById("webFrame").src = "";
+  }
     </script>
    <!--<script>eruda.init();</script>  -->
   <!-- <div id="ton-connect"></div> -->

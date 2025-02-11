@@ -125,7 +125,7 @@ body {
   height: 100%; /* Full viewport height */
   background: white;
   justify-content: center; /* Centers horizontally */
-  align-items: center; /* Centers vertically */
+  align-items: center; /* Centers vertically */ 
 }
 /* #closeButton {
   display: none;
@@ -147,7 +147,7 @@ body {
   width: 30px;
   height: 30px;
   font-size: 20px;
-  background: rgb(255, 255, 255, 0.5);
+  background: rgb(255,255,255,0.5);
   color: white;
   border: none;
   border-radius: 50%;
