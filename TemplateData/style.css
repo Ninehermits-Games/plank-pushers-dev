@@ -125,10 +125,10 @@ body {
   height: 100%; /* Full viewport height */
   background: white;
   justify-content: center; /* Centers horizontally */
-  align-items: center; /* Centers vertically */
+  align-items: center; /* Centers vertically */ 
 }
 /* #closeButton {
-  display: none; 
+  display: none;
   position: absolute;
   top: 10%;
   left: 10%;
@@ -137,8 +137,7 @@ body {
   color: white;
   border: none;
   cursor: pointer;
-} 
-*/
+} */
 
 #closeButton {
   display: none; /* Hidden by default */
