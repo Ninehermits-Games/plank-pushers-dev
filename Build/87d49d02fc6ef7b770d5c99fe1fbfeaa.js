@@ -5345,6 +5345,7 @@ var ASM_CONSTS = {
       document.getElementById("iframeTitle").innerText = UTF8ToString(title);
       document.getElementById("iframeContainer").style.display = "block";
       document.getElementById("unity-canvas").style.display = "none";
+      document.getElementById("loadingSpinner").style.display = "block";
     }
 
   async function _QuestClaim(url, token, key) {
