@@ -5343,7 +5343,7 @@ var ASM_CONSTS = {
   function _OpenWebFrame(url, title) {
       document.getElementById("webFrame").src = UTF8ToString(url);
       document.getElementById("iframeTitle").innerText = title;
-      document.getElementById("iframeContainer").style.display = "flex";
+      document.getElementById("iframeContainer").style.display = "block";
     }
 
   async function _QuestClaim(url, token, key) {
