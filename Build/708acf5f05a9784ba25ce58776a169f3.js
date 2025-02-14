@@ -5342,7 +5342,7 @@ var ASM_CONSTS = {
 
   function _OpenWebFrame(url, title) {
       document.getElementById("webFrame").src = UTF8ToString(url);
-      document.getElementById("iframeTitle").innerText = title;
+      document.getElementById("iframeTitle").innerText = UTF8ToString(title);
       document.getElementById("iframeContainer").style.display = "block";
     }
 
